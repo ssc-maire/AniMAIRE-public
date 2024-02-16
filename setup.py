@@ -5,7 +5,7 @@ import glob as gb
 # get requirements for installation
 lib_folder = os.path.dirname(os.path.realpath(__file__))
 requirement_path = lib_folder + '/requirements.txt'
-install_requires = [] # Here we'll get: ["gunicorn", "docutils>=0.3", "lxml==0.5a7"]
+install_requires = []
 if os.path.isfile(requirement_path):
     with open(requirement_path) as f:
         install_requires = f.read().splitlines()
@@ -18,7 +18,7 @@ this_directory = Path(__file__).parent
 long_description = (this_directory / "README.md").read_text()
 
 setup(
-    name='anisotropicMAIRE',
+    name='AniMAIRE',
     packages=find_packages(exclude='pytests'),
     version='1.0.0',
     description='Python library for running the anisotropic version of MAIRE+',
@@ -27,6 +27,8 @@ setup(
     author='Chris S. W. Davis',
     author_email='ChrisSWDavis@gmail.com',
     license='GNU General Public License v3.0',
+    url='https://github.com/ssc-maire/AniMAIRE-public',
+    keywords='anisotropic MAIRE+ atmospheric ionizing radiation dose rates cosmic rays ground level enhancements GLEs protons alpha particles neutrons effective ambient equivalent aircraft aviation Earth solar system sun space magnetic field',
     install_requires=install_requires,
     setup_requires=['pytest-runner','wheel'],
     tests_require=['pytest'],
