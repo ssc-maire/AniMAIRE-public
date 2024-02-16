@@ -5,6 +5,8 @@
 
 A Python toolkit for calculating dose rates in Earth's atmosphere based on any incoming proton or alpha particle spectra, with any pitch angle distribution. 
 
+**If you use this software for scientific research, please reference AniMAIRE as C. S. W. Davis, F. Lei, F. Baird, K. Ryden and C. Dyer (2023). AniMAIRE version {version number}. https://github.com/ssc-maire/AniMAIRE-public , https://pypi.org/project/AniMAIRE/ . Surrey Space Center, University of Surrey.**
+
 ## Installation
 
 To install this toolkit from this Github repository, first clone this repository to your local system, and then from the cloned respository, run
