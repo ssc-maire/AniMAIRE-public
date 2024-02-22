@@ -1,7 +1,7 @@
 # AniMAIRE
 
 
-**N.B. Currently this tool only runs on Linux-based machines (not on Windows), and requires a copy of !(http://cosray.unibe.ch/~laurent/magnetocosmics/)[MAGNETOCOSMICS] to be installed.**
+**N.B. Currently this tool only runs on Linux-based machines (not on Windows), and requires a copy of [MAGNETOCOSMICS](http://cosray.unibe.ch/~laurent/magnetocosmics/) to be installed.**
 
 A Python toolkit for calculating dose rates in Earth's atmosphere based on any incoming proton or alpha particle spectra, with any pitch angle distribution. 
 
