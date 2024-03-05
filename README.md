@@ -1,9 +1,8 @@
-# AniMAIRE
-
-
-**N.B. Currently this tool only runs on Linux-based machines (not on Windows)**
+![The AniMAIRE logo](squash.svg)
 
 A Python toolkit for calculating dose rates in Earth's atmosphere based on any incoming proton or alpha particle spectra, with any pitch angle distribution. 
+
+**N.B. Currently this tool only runs on Linux-based machines (not on Windows). Note that you must have a copy of MAGNETOCOSMICS already installed to use this package**
 
 ## Installation
 
