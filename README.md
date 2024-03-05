@@ -1,4 +1,4 @@
-![The AniMAIRE logo](squash.svg)
+![The AniMAIRE logo](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/squash.svg)
 
 A Python toolkit for calculating dose rates in Earth's atmosphere based on any incoming proton or alpha particle spectra, with any pitch angle distribution. 
 
