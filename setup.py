@@ -20,7 +20,7 @@ long_description = (this_directory / "README.md").read_text()
 setup(
     name='AniMAIRE',
     packages=find_packages(exclude='pytests'),
-    version='1.0.5',
+    version='1.0.6',
     description='Python library for running the anisotropic version of MAIRE+',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -32,7 +32,7 @@ setup(
     install_requires=['numpy>=1.21.6',
                         'pandarallel>=1.6.3',
                         'pandas>=1.3.5',
-                        'ParticleRigidityCalculationTools>=1.5.3',
+                        'ParticleRigidityCalculationTools>=1.5.4',
                         'scipy>=1.7.3',
                         'setuptools>=45.2.0',
                         'spacepy>=0.3.0',
