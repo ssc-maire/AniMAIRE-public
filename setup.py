@@ -23,7 +23,7 @@ setup(
     package_data={"AniMAIRE":[
                                 "anisotropic_MAIRE_engine/data/*.csv"
                                          ]},
-    version='1.0.7',
+    version='1.0.8',
     description='Python library for running the anisotropic version of MAIRE+',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -43,6 +43,7 @@ setup(
                         'plotly>=5.9.0',
                         'wheel>=0.41.2',
                         'numba>=0.57.1',
+                        'metpy>=1.6.1',
                         'CosRayModifiedISO >= 1.2.3',
                         'AsympDirsCalculator >= 1.0.8',
                         'atmosphericRadiationDoseAndFlux >= 1.0.3'],
