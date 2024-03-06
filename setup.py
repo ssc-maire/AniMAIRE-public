@@ -20,7 +20,7 @@ long_description = (this_directory / "README.md").read_text()
 setup(
     name='AniMAIRE',
     packages=find_packages(exclude='pytests'),
-    version='1.0.4',
+    version='1.0.5',
     description='Python library for running the anisotropic version of MAIRE+',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -42,7 +42,7 @@ setup(
                         'numba>=0.57.1',
                         'CosRayModifiedISO >= 1.2.3',
                         'AsympDirsCalculator >= 1.0.8',
-                        'atmosphericRadiationDoseAndFlux >= 1.0.3']
+                        'atmosphericRadiationDoseAndFlux >= 1.0.3'],
     #install_requires,
     setup_requires=['pytest-runner','wheel'],
     tests_require=['pytest'],
