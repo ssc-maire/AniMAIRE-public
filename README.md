@@ -8,7 +8,13 @@ If you use this software for scientific research, please reference AniMAIRE as *
 
 ## Installation
 
-To install this toolkit from this Github repository, first clone this repository to your local system, and then from the cloned respository, run
+To install this toolkit using the common pip Python method, run
+
+```
+pip install AniMAIRE
+```
+
+Otherwise, to install this toolkit from this Github repository, first clone this repository to your local system, and then from the cloned respository, run
 
 ```
 sudo pip3 install .
@@ -17,6 +23,58 @@ sudo pip3 install .
 in the cloned directory. 
 
 Note that there are quite a few sizeable data files within some of the dependencies for this package that get copied during installation (on the order of about several hundred megabytes in total) so installation may take a couple of minutes.
+
+**To use this package you must have a version of magnetocosmics installed, such that magnetocosmics can be run by typing 'magnetocosmics' the terminal, i.e. typing:**
+
+```
+$ magnetocosmics
+```
+outputs something like the following:
+```
+
+
+          ################################
+          !!! G4Backtrace is activated !!!
+          ################################
+
+
+**************************************************************
+ Geant4 version Name: geant4-11-00-patch-02 [MT]   (25-May-2022)
+                       Copyright : Geant4 Collaboration
+                      References : NIM A 506 (2003), 250-303
+                                 : IEEE-TNS 53 (2006), 270-278
+                                 : NIM A 835 (2016), 186-225
+                             WWW : http://geant4.org/
+**************************************************************
+
+/h n m 1900.0 1905.0 1910.0 1915.0 1920.0 1925.0 1930.0 1935.0 1940.0 1945.0 1950.0 1955.0 1960.0 1965.0 1970.0 1975.0 1980.0 1985.0 1990.0 1995.0   2000.0    2005.0    2010.0    2015.0   2020.0    SV
+mmm1900
+Nyear 25
+1900
+Nyear 25
+
+...
+
+g       8       8
+h       8       8
+g       9       0
+0.0     0       -999
+XGSE in GEI (0.193332,-0.900173,-0.39027)
+(0.0573796,-0.172205,0.983389)
+-19.4809
+Selected index20
+XGSE in GEI (0.17509,-0.903305,-0.391643)
+(0.0590434,-0.175608,0.982688)
+-25.9091
+Test93
+Test97
+Test
+G4CashKarpRKF45 is called
+```
+
+Feel free to contribute to this package through forks and pull requests; the package is intended for usage and potential modification by the community. If you have any questions about this software, please contact myself, [https://github.com/ChrisSWDavis](https://github.com/ChrisSWDavis), the primary author of this package. 
+
+While this package is new, it fundamentally relies on Magnetocosmics through the [AsympDirsCalculator package](https://github.com/ssc-maire/AsymptoticDirectionsCalculator-public), and it is likely that the community will eventually create a successor for Magnetocosmics. One attempt to do this is the [OTSO software](https://github.com/NLarsen15/OTSO), which is also designed to be open-source and community oriented. We hope that in the future, this Python wrapper could be integrated with OTSO. 
 
 ## Usage
 
