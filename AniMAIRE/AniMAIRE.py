@@ -8,6 +8,8 @@ from .anisotropic_MAIRE_engine.spectralCalculations.pitchAngleDistribution impor
 
 from .anisotropic_MAIRE_engine.maireSengine import generalEngineInstance, default_array_of_lats_and_longs
 
+from scipy.interpolate import NearestNDInterpolator
+
 default_altitudes_in_kft = [0,10,20] + [i for i in range(25, 61 + 1, 3)]
 
 def run_from_spectra(
@@ -184,8 +186,17 @@ import seaborn as sns
 import geopandas
 import matplotlib.pyplot as plt
 
-def create_single_dose_map_plot_plt(heatmap_DF_to_Plot, hue_range = (2,7), heatmap_s = 63,edgecolor='white',
-                    dose_type = "adose"):
+#def create_single_dose_map_plot_plt(heatmap_DF_to_Plot, hue_range = (2,7), heatmap_s = 63,edgecolor='white',
+#                    dose_type = "adose"):
+def create_single_dose_map_plot_plt(heatmap_DF_to_Plot, 
+                                    hue_range = None, #(0,100), 
+                                    heatmap_s = 63,
+                                    edgecolor=None,
+                                    dose_type = "edose",
+                                    legend_label=r"Effective dose ($\mu Sv / hr$)",
+                                    palette="Spectral_r",
+                                    plot_longitude_east=False, 
+                                    plot_colorbar=True):
 
     ############################ creating background world map and dose image
     currentFigure = plt.gcf()
@@ -196,19 +207,29 @@ def create_single_dose_map_plot_plt(heatmap_DF_to_Plot, hue_range = (2,7), heatm
     #heatmap_DF_to_Plot = pd.read_csv(file_path_to_read, delimiter=',')
     heatmap_DF_to_Plot["SEU (Upsets/hr/Gb)"] = heatmap_DF_to_Plot["SEU"] * (60.0 * 60.0) * 1e9
     heatmap_DF_to_Plot["SEL (Latch-ups/hr/device)"] = heatmap_DF_to_Plot["SEL"] * (60.0 * 60.0)
-    heatmap_DF_to_Plot["longitudeTranslated"] = heatmap_DF_to_Plot["longitude"].apply(lambda x:x-360.0 if x > 180.0 else x)
+    if plot_longitude_east is False:
+        heatmap_DF_to_Plot["longitudeTranslated"] = heatmap_DF_to_Plot["longitude"].apply(lambda x:x-360.0 if x > 180.0 else x)
+    else:
+        heatmap_DF_to_Plot["longitudeTranslated"] = heatmap_DF_to_Plot["longitude"]
 
     scatterPlotAxis = sns.scatterplot(data=heatmap_DF_to_Plot,x="longitudeTranslated",y="latitude",
-                    hue=dose_type, hue_norm=hue_range, palette="crest",
+                    hue=dose_type, hue_norm=hue_range, palette=palette,
                     zorder=10,
                     marker="s",s=heatmap_s,edgecolor=edgecolor,
-                    legend="brief",
+                    legend=False,
                     )#ax=axToPlotOn)
 
-    world = geopandas.read_file(geopandas.datasets.get_path('naturalearth_lowres'))
-    world.plot(color="None",edgecolor="black",lw=1.5,ax=scatterPlotAxis,zorder=20)
+    if plot_colorbar is True:
+        norm = plt.Normalize(hue_range[0], hue_range[1])
+        sm = plt.cm.ScalarMappable(cmap=palette, norm=norm)
+        sm.set_array([])
 
-    ####################################################################
+        # Remove the legend and add a colorbar
+        #scatterPlotAxis.get_legend().remove()
+        #colorbar = scatterPlotAxis.figure.colorbar(sm,label=legend_label,shrink=0.4)
+        colorbar = scatterPlotAxis.figure.colorbar(sm,label=legend_label,orientation="horizontal")
+    else:
+        colorbar = None
 
     plt.ylim([-90,90])
     plt.xlim([-175,180])
@@ -216,9 +237,48 @@ def create_single_dose_map_plot_plt(heatmap_DF_to_Plot, hue_range = (2,7), heatm
     plt.xlabel("Longitude (degrees)")
     plt.ylabel("Latitude (degrees)")
 
-    plt.legend(title=dose_type,loc="center left",bbox_to_anchor=(1.1,0.5))
+    world = geopandas.read_file(geopandas.datasets.get_path('naturalearth_lowres'))
+    world.plot(color="None",edgecolor="black",lw=0.35,ax=scatterPlotAxis,zorder=20)
+    if plot_longitude_east is True:
+        world['geometry'] = world['geometry'].translate(xoff=360)
+        world.plot(color="None",edgecolor="black",lw=0.35,ax=scatterPlotAxis,zorder=20)
+        plt.xlim([0,355])
 
-    return plt.gca()
+    ####################################################################
 
+    #plt.legend(title=dose_type,loc="center left",bbox_to_anchor=(1.1,0.5))
 
+    return scatterPlotAxis, colorbar
+
+def plot_dose_map_contours(dose_map_to_plot,levels=3,**kwargs):
+    
+    dose_map_to_plot_sorted = dose_map_to_plot.sort_values(by=["longitudeTranslated","latitude"])
+    
+    (contour_longs, contour_lats) = np.meshgrid(dose_map_to_plot_sorted["longitudeTranslated"].unique(),
+            dose_map_to_plot_sorted["latitude"].unique())
+    
+    interp = NearestNDInterpolator(list(zip(dose_map_to_plot_sorted["longitudeTranslated"], dose_map_to_plot_sorted["latitude"])), 
+                               dose_map_to_plot_sorted["edose"])
+
+    contours = plt.contour(contour_longs,contour_lats,interp(contour_longs, contour_lats),
+            levels=levels,linestyles="dashed",colors="black",zorder=1000,**kwargs)
+    plt.clabel(contours, inline=True) #,fmt={"fontweight":"bold"})
+
+def plot_dose_map(map_to_plot, 
+                  plot_title=None,
+                  plot_contours=True,
+                  levels=3,
+                    **kwargs):
+
+    #altitude_to_plot_in_km = altitude_to_plot_in_kft * 0.3048
+
+    axis_no_colorbar, colorbar = create_single_dose_map_plot_plt(map_to_plot,
+                                                     **kwargs)
+    
+    plt.title(plot_title)
+
+    if plot_contours is True:
+        plot_dose_map_contours(map_to_plot,levels=levels,**kwargs)
+
+    return axis_no_colorbar, colorbar
     
