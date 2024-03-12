@@ -30,7 +30,7 @@ class generalEngineInstance():
                  reference_longitude=45.0, #None,
                  array_of_lats_and_longs=default_array_of_lats_and_longs,
                  cache_magnetocosmics_runs=True,
-                 generate_NM_count_rates=True):
+                 generate_NM_count_rates=False):
         
         self.rigiditySpectrumParamDict = {}
         self.pitchAngleDistributionParamDict = {}

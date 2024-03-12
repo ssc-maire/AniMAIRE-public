@@ -25,7 +25,7 @@ def run_from_spectra(
         date_and_time=dt.datetime.now(),
         array_of_lats_and_longs=default_array_of_lats_and_longs,
         cache_magnetocosmics_run=True,
-        generate_NM_count_rates=True,
+        generate_NM_count_rates=False,
         **mag_cos_kwargs,
 ):
     
