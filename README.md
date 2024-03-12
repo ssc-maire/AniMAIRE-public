@@ -1,4 +1,4 @@
-![The AniMAIRE logo](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/squash.svg)
+![The AniMAIRE logo](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/AniMAIRE_logo.svg)
 
 A Python toolkit for calculating dose rates in Earth's atmosphere based on any incoming proton or alpha particle spectra, with any pitch angle distribution. 
 
@@ -124,7 +124,7 @@ in Python. This should produce some dose rates as output to `test_isotropic_dose
 
 ## Calculating dose rates at any location in Earth's atmosphere
 
-The basic function for performing a run to calculate dose rates in `AniMAIRE` is the `run_from_spectra` function, which has the format:
+The primary function for performing a run to calculate dose rates in `AniMAIRE` is the `run_from_spectra` function, which has the format:
 
 ```
 def run_from_spectra(
