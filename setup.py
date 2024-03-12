@@ -23,7 +23,7 @@ setup(
     package_data={"AniMAIRE":[
                                 "anisotropic_MAIRE_engine/data/*.csv"
                                          ]},
-    version='1.0.11',
+    version='1.0.12',
     description='Python library for running the anisotropic version of MAIRE+',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -49,6 +49,7 @@ setup(
                         'seaborn >= 0.13.2',
                         'geopandas >= 0.11.1',
                         'joblib >= 1.2.0',
+                        'spaceweather>=0.2.4',
                         'atmosphericRadiationDoseAndFlux >= 1.0.3'],
     #install_requires,
     setup_requires=['pytest-runner','wheel'],
