@@ -202,6 +202,15 @@ def create_single_dose_map_plot_plt(heatmap_DF_to_Plot,
                                     palette="Spectral_r",
                                     plot_longitude_east=False, 
                                     plot_colorbar=True):
+    
+    if not (heatmap_DF_to_Plot["altitude (km)"].nunique() == 1):
+        print()
+        print("\033[1mWARNING: multiple altitudes were supplied in the input dataframe, therefore only the map for the maximum altitude will be plotted!\033[0m")
+        print()
+        heatmap_DF_to_Plot = heatmap_DF_to_Plot.query(f"`altitude (km)` == {heatmap_DF_to_Plot['altitude (km)'].max()}")
+    
+    if hue_range is None:
+        hue_range = (0,heatmap_DF_to_Plot["edose"].max())
 
     ############################ creating background world map and dose image
     currentFigure = plt.gcf()

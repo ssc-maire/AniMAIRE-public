@@ -247,7 +247,7 @@ class singleParticleEngineInstance():
         # assign each asymptotic direction a weighting factor in accordance with its pitch angle
         print("assigning pitch angle weighting factors...")
         df_with_weighting_factors_full_angles = acquireWeightingFactors(self.dfOfAllAsymptoticDirections,
-                                                            self.particle_distribution.momentum_distribution)
+                                                            self.particle_distribution)
         #######################################################
 
         # print("df_with_weighting_factors:")
