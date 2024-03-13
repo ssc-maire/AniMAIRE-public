@@ -46,9 +46,9 @@ class generalEngineInstance():
         self.cache_magnetocosmics_runs = cache_magnetocosmics_runs
         self.generate_NM_count_rates = generate_NM_count_rates
 
-    def getAsymptoticDirsAndRun(self,**mag_cos_kwargs)->pd.DataFrame:
+    def getAsymptoticDirsAndRun(self,use_default_9_zeniths_azimuths:bool,**mag_cos_kwargs)->pd.DataFrame:
         
-        self.acquireDFofAllAsymptoticDirections(**mag_cos_kwargs)
+        self.acquireDFofAllAsymptoticDirections(use_default_9_zeniths_azimuths,**mag_cos_kwargs)
 
         fullDoseRateList = []
 
@@ -69,16 +69,44 @@ class generalEngineInstance():
 
         return summedDoseRateDF
     
-    def acquireDFofAllAsymptoticDirections(self, **mag_cos_kwargs):
-        # run magnetocosmics to get asymptotic directions
-        raw_asymp_dir_DF = AsympDirsTools.get_magcos_asymp_dirs(
-                                                array_of_lats_and_longs=self.array_of_lats_and_longs,
-                                                KpIndex=self.Kp_index,
-                                                dateAndTime=self.date_and_time,
-                                                cache=self.cache_magnetocosmics_runs,
-                                                full_output=True,
-                                                **mag_cos_kwargs,
-                                                )
+    def acquireDFofAllAsymptoticDirections(self, use_default_9_zeniths_azimuths:bool, **mag_cos_kwargs):
+
+        if (use_default_9_zeniths_azimuths is True) and ("array_of_zeniths_and_azimuths" in mag_cos_kwargs.keys()):
+            raise Exception("Error: use_default_9_zeniths_azimuths is set to true, and simultaneously array_of_zeniths_and_azimuths has been separately specified by the user.")
+
+        elif (use_default_9_zeniths_azimuths is True):
+            array_of_zeniths_and_azimuths = [
+                                        [0.0,0.0],
+                                        [16.0,0.0],
+                                        [16.0,90.0],
+                                        [16.0,180.0],
+                                        [16.0,270.0],
+                                        [32.0,0.0],
+                                        [32.0,90.0],
+                                        [32.0,180.0],
+                                        [32.0,270.0],
+                                        ]
+            # run magnetocosmics to get asymptotic directions
+            raw_asymp_dir_DF = AsympDirsTools.get_magcos_asymp_dirs(
+                                                    array_of_lats_and_longs=self.array_of_lats_and_longs,
+                                                    KpIndex=self.Kp_index,
+                                                    dateAndTime=self.date_and_time,
+                                                    cache=self.cache_magnetocosmics_runs,
+                                                    full_output=True,
+                                                    array_of_zeniths_and_azimuths=array_of_zeniths_and_azimuths,
+                                                    **mag_cos_kwargs,
+                                                    )
+        else:
+            # run magnetocosmics to get asymptotic directions
+            raw_asymp_dir_DF = AsympDirsTools.get_magcos_asymp_dirs(
+                                                    array_of_lats_and_longs=self.array_of_lats_and_longs,
+                                                    KpIndex=self.Kp_index,
+                                                    dateAndTime=self.date_and_time,
+                                                    cache=self.cache_magnetocosmics_runs,
+                                                    full_output=True,
+                                                    **mag_cos_kwargs,
+                                                    )
+            
         raw_asymp_dir_DF.to_pickle("raw_asymp_dir_DF.pkl")
         self.df_of_asymptotic_directions = generate_asymp_dir_DF(raw_asymp_dir_DF, 
                                                                  self.reference_latitude, 
