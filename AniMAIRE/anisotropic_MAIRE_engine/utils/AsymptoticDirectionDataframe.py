@@ -24,13 +24,16 @@ c = 299792458.0 #m/s
 protonCharge = 1.60217663e-19 #C
 protonRestEnergy = m0 * (c**2)
 
-gettrace = getattr(sys, 'gettrace', None)
 global get_apply_method
-if gettrace is None:
-    #print('No sys.gettrace')
-    get_apply_method = lambda DF_or_Series:DF_or_Series.parallel_apply
-else:
-    get_apply_method = lambda DF_or_Series:DF_or_Series.progress_apply
+def get_apply_method(DF_or_Series):
+    if hasattr(sys, 'gettrace') and sys.gettrace() is not None:
+        print("debug mode being used: setting AniMAIRE to use progress_apply rather than running in parallel!")
+        apply_method = DF_or_Series.progress_apply
+    else:
+        #print("not in debug mode: setting AniMAIRE to use parallel_apply!")
+        apply_method = DF_or_Series.parallel_apply
+        
+    return apply_method
     
 
 def generate_asymp_dir_DF(dataframeToFillFrom:pd.DataFrame, IMFlatitude:float, IMFlongitude:float, datetime_to_run_across_UTC, cache:bool):
@@ -78,7 +81,8 @@ def convertAsymptoticDirectionsToPitchAngle(dataframeToFillFrom, IMFlatitude, IM
     #pitch_angle_list = dataframeToFillFrom.parallel_apply(lambda dataframe_row:get_pitch_angle_for_DF_row(IMFlatitude, IMFlongitude, dataframe_row, datetime_to_run_across_UTC),axis=1)
     
     #pitch_angle_list = dataframeToFillFrom.parallel_apply(lambda dataframe_row:get_pitch_angle_for_DF_analytic(IMFlatitude, IMFlongitude, dataframe_row["Lat"], dataframe_row["Long"]),axis=1)
-    pitch_angle_list = dataframeToFillFrom.progress_apply(lambda dataframe_row:get_pitch_angle_for_DF_analytic(IMFlatitude, IMFlongitude, dataframe_row["Lat"], dataframe_row["Long"]),axis=1)
+    #pitch_angle_list = dataframeToFillFrom.progress_apply(lambda dataframe_row:get_pitch_angle_for_DF_analytic(IMFlatitude, IMFlongitude, dataframe_row["Lat"], dataframe_row["Long"]),axis=1)
+    pitch_angle_list = get_apply_method(dataframeToFillFrom)(lambda dataframe_row:get_pitch_angle_for_DF_analytic(IMFlatitude, IMFlongitude, dataframe_row["Lat"], dataframe_row["Long"]),axis=1)
 
     #pitch_angle_list = dataframeToFillFrom.parallel_apply(lambda dataframe_row:get_pitch_angle_for_DF_Mishev(IMFlatitude, IMFlongitude, dataframe_row["Lat"], dataframe_row["Long"]),axis=1)
 

@@ -1,6 +1,11 @@
 import numpy as np
 import datetime as dt
 import plotly.express as px
+import seaborn as sns
+import geopandas
+import matplotlib.pyplot as plt
+import spaceweather as sw
+import pandas as pd
 
 from .utils import get_correctly_formatted_particle_dist_list
 from .anisotropic_MAIRE_engine.spectralCalculations.rigiditySpectrum import DLRmodelSpectrum, MishevModifiedPowerLawSpectrum, MishevModifiedPowerLawSpectrumSplit
@@ -22,15 +27,17 @@ def run_from_spectra(
         altitudes_in_kft=default_altitudes_in_kft,
         altitudes_in_km=None,
         Kp_index=None,
-        date_and_time=dt.datetime.now(),
+        date_and_time=dt.datetime.utcnow(),
         array_of_lats_and_longs=default_array_of_lats_and_longs,
         cache_magnetocosmics_run=True,
         generate_NM_count_rates=False,
+        use_default_9_zeniths_azimuths=False,
         **mag_cos_kwargs,
 ):
     
     if Kp_index is None:
-        raise Exception("Error: no Kp index specified!")
+        Kp_index = sw.ap_kp_3h()[pd.to_datetime(sw.ap_kp_3h().index) < date_and_time].iloc[-1]["Kp"]
+        #raise Exception("Error: no Kp index specified!")
     
     if (altitudes_in_km is not None) and (altitudes_in_kft is not default_altitudes_in_kft):
         raise Exception("Error: only one of altitudes_in_km and altitudes_in_kft should be supplied!")
@@ -59,7 +66,7 @@ def run_from_spectra(
                                           cache_magnetocosmics_runs=cache_magnetocosmics_run,
                                           generate_NM_count_rates=generate_NM_count_rates)
     
-    output_dose_rate_DF = engine_to_run.getAsymptoticDirsAndRun(**mag_cos_kwargs)
+    output_dose_rate_DF = engine_to_run.getAsymptoticDirsAndRun(use_default_9_zeniths_azimuths,**mag_cos_kwargs)
 
     print("Success!")
 
@@ -155,7 +162,8 @@ def run_from_DLR_cosmic_ray_model(OULU_count_rate_in_seconds=None,
     return output_dose_rate_DF
 
 def create_single_dose_map_plot(DF_to_use,
-                              selected_altitude_in_km):
+                              selected_altitude_in_km,
+                              **kwargs):
 
     if selected_altitude_in_km is not None:
         DF_to_use = DF_to_use[round(DF_to_use["altitude (km)"],4) == selected_altitude_in_km]
@@ -166,7 +174,8 @@ def create_single_dose_map_plot(DF_to_use,
     doseRateMap = px.scatter(DF_to_use, x="longitude",y="latitude",color="adose",
                             symbol_sequence=["square"],
                             range_y=[-90,90],
-                            range_x=[0,360])
+                            range_x=[0,360],
+                            **kwargs)
     
     doseRateMap.update_traces(marker={'size': 10})
     doseRateMap.update_layout(yaxis=dict(scaleanchor="x", scaleratio=1, range=[-90,90]))
@@ -181,10 +190,6 @@ def create_single_dose_map_plot(DF_to_use,
     doseRateMap.show()
 
     return doseRateMap
-
-import seaborn as sns
-import geopandas
-import matplotlib.pyplot as plt
 
 #def create_single_dose_map_plot_plt(heatmap_DF_to_Plot, hue_range = (2,7), heatmap_s = 63,edgecolor='white',
 #                    dose_type = "adose"):
@@ -249,6 +254,19 @@ def create_single_dose_map_plot_plt(heatmap_DF_to_Plot,
     #plt.legend(title=dose_type,loc="center left",bbox_to_anchor=(1.1,0.5))
 
     return scatterPlotAxis, colorbar
+
+def add_colorbar_to_plot(hue_range, palette, legend_label, scatterPlotAxis=None):
+    norm = plt.Normalize(hue_range[0], hue_range[1])
+    sm = plt.cm.ScalarMappable(cmap=palette, norm=norm)
+    sm.set_array([])
+
+    # Remove the legend and add a colorbar
+    #scatterPlotAxis.get_legend().remove()
+    if scatterPlotAxis is None:
+        colorbar = plt.colorbar(sm,label=legend_label,shrink=0.4)
+    else:
+        colorbar = scatterPlotAxis.figure.colorbar(sm,label=legend_label,shrink=0.4)
+    return colorbar
 
 def plot_dose_map_contours(dose_map_to_plot,levels=3,**kwargs):
     
