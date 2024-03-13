@@ -40,7 +40,7 @@ def generate_asymp_dir_DF(dataframeToFillFrom:pd.DataFrame, IMFlatitude:float, I
 
     new_asymp_dir_DF = dataframeToFillFrom.copy()
 
-    new_asymp_dir_DF["Energy"] = PRCT.convertParticleRigidityToEnergy(dataframeToFillFrom["Rigidity"], particleMassAU = 1, particleChargeAU = 1)
+    #new_asymp_dir_DF["Energy"] = PRCT.convertParticleRigidityToEnergy(dataframeToFillFrom["Rigidity"], particleMassAU = 1, particleChargeAU = 1)
 
     print("assigning asymptotic coordinates")
     if cache == False:
@@ -132,7 +132,9 @@ def get_pitch_angle_for_DF_row(IMFlatitude, IMFlongitude, dataframeRow, datetime
     pitch_angle_for_row = calculatePitchAngle_from_IMF_dir(interplanetary_mag_field, rowInSpacepyCoords, datetime_to_run_across_UTC)
     return pitch_angle_for_row
 
-def acquireWeightingFactors(asymptotic_direction_DF:pd.DataFrame, momentaDist):
+def acquireWeightingFactors(asymptotic_direction_DF:pd.DataFrame, particle_distribution):
+
+    momentaDist = particle_distribution.momentum_distribution
 
     new_asymptotic_direction_DF = asymptotic_direction_DF.copy()
 
@@ -170,9 +172,13 @@ def acquireWeightingFactors(asymptotic_direction_DF:pd.DataFrame, momentaDist):
     #print(new_asymptotic_direction_DF)
 
     print("calculating energy + pitch combined weighting factors...")
+    new_asymptotic_direction_DF["Energy"] = PRCT.convertParticleRigidityToEnergy(new_asymptotic_direction_DF["Rigidity"], 
+                                                                      particleMassAU = particle_distribution.particle_species.atomicMass, 
+                                                                      particleChargeAU = particle_distribution.particle_species.atomicNumber)
     energySpectrum = PRCT.convertParticleRigiditySpecToEnergySpec(new_asymptotic_direction_DF["Rigidity"],
                                                                   new_asymptotic_direction_DF["fullRigidityPitchWeightingFactor"],
-                                                                  particleMassAU=1, particleChargeAU=1)
+                                                                  particleMassAU=particle_distribution.particle_species.atomicMass, 
+                                                                  particleChargeAU=particle_distribution.particle_species.atomicNumber)
 
     new_asymptotic_direction_DF["fullEnergyPitchWeightingFactor"] = energySpectrum["Energy distribution values"]
     #print(new_asymptotic_direction_DF)
