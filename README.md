@@ -211,17 +211,29 @@ Any particular altitudes the user wants to use can be supplied to `altitudes_in_
 
 If you want to perform calculations only at a specific set of latitudes and longitudes you should use the `array_of_lats_and_longs` argument, supplying it as a 2 dimensional `list` or numpy array, where the first column refers to latitudes and the second column refers to longitudes. All longitudes in this case should be specified in terms of longitude east (i.e. 0.00 degrees - 359.99 degrees). **Using the `array_of_lats_and_longs` argument significantly speeds up the running of `AniMAIRE` if you're only interested in a small number of coordinates, so its use is highly recommended in those situations.**
 
-There are many ways you could plot this data. An example function, `create_single_dose_map_plot`, has been supplied in `AniMAIRE` that uses plotly to plot the dose rates across Earth (i.e. as a function of latitude and longitude) at a given altitude. Its specification is the following:
+There are many ways you could plot this data. Several example functions,`plot_dose_map` and `create_single_dose_map_plotly`, have been supplied in `AniMAIRE` that uses matplotlib or plotly to plot the dose rates across Earth (i.e. as a function of latitude and longitude) at a given altitude. Both of these functions are available in the `dose_plotting` submodule supplied with AniMAIRE. Their specifications are the following:
 
 ```
-def create_single_dose_map_plot(DF_to_use,
+def plot_dose_map(map_to_plot,
+                  plot_title=None,
+                  plot_contours=True,
+                  levels=3,
+                    **kwargs)
+```
+for matplotlib plots, where map_to_plot is the Pandas DataFrame outputted by a run of `AniMAIRE`, with only one altitude selected. `plot_contours` can be switched on or off to control whether contours are added to the plot, and `levels` can be used to specify to number of contours and/or dose rates for the contours to correspond to. `hue_range` can also be supplied with a 2-value tuple to specify the limits of the colorbar to be plotted with the plot. 
+
+To generate a plotly plot, you can run 
+```
+def create_single_dose_map_plotly(DF_to_use,
                                 selected_altitude_in_km)
 ```
 where `DF_to_use` is the Pandas DataFrame outputted by a run of `AniMAIRE` and altitude is one of the altitudes in kilometers supplied to/outputted by the run.
 
 To use this function to create a map of the isotropic situation as given as an example above, you could run 
 ```
-AniMAIRE.plot_dose_map(test_isotropic_dose_rates.query("`altitude (km)` == 12.1920"),
+from AniMAIRE import dose_plotting
+
+dose_plotting.plot_dose_map(test_isotropic_dose_rates.query("`altitude (km)` == 12.1920"),
                                          hue_range=(0,9))
 ```
 
@@ -295,17 +307,21 @@ In this case printing `test_anisotropic_dose_rates` should output:
 
 which will produce the following plot when
 ```
-AniMAIRE.plot_dose_map(test_anisotropic_dose_rates.query("`altitude (km)` == 12.1920"),
+from AniMAIRE import dose_plotting
+
+dose_plotting.plot_dose_map(test_anisotropic_dose_rates.query("`altitude (km)` == 12.1920"),
                                          hue_range=(0,9))
 ```
-is run:
+is run, as was described previously in this README for isotropic plotting:
 
 ![anisotropic_test_plot](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Anisotropic_40kft_example.svg)
 
 
 you can also produce similar plotly plots if you prefer plotly to matplotlib using:
 ```
-anisotropic_dose_rate_map = AniMAIRE.create_single_dose_map_plot(test_anisotropic_dose_rates,
+from AniMAIRE import dose_plotting
+
+anisotropic_dose_rate_map = dose_plotting.create_single_dose_map_plotly(test_anisotropic_dose_rates,
                             			      selected_altitude_in_km = 12.1920)
 ```
 which generates the following plot:
