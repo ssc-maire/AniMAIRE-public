@@ -6,6 +6,12 @@ A Python toolkit for calculating dose rates in Earth's atmosphere based on any i
 
 If you use this software for scientific research, please reference AniMAIRE as **C. S. W. Davis, F. Lei, F. Baird, K. Ryden and C. Dyer (2023). AniMAIRE version {version number}. https://github.com/ssc-maire/AniMAIRE-public , https://pypi.org/project/AniMAIRE/ . Surrey Space Center, University of Surrey.**
 
+You can use AniMAIRE to produce dose rate data and maps throughout large space weather events and plot them like this:
+
+![An example map of dose rates during a large space weather event](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp1_with_legend.svg)
+
+![An example animation of dose rates during a large space weather event](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/39kft_heatmap_animation_anisotropic.gif)
+
 ## Installation
 
 To install this toolkit using the common pip Python method, run
