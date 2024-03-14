@@ -10,7 +10,7 @@ tqdm.pandas()
 
 from AsympDirsCalculator import AsympDirsTools
 
-from .utils.AsymptoticDirectionDataframe import generate_asymp_dir_DF
+from .AsymptoticDirectionProcessing import generate_asymp_dir_DF
 
 import datetime as dt
 
