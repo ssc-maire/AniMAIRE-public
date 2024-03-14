@@ -289,8 +289,8 @@ In this case printing `test_anisotropic_dose_rates` should output:
 
 which will produce the following plot when
 ```
-anisotropic_dose_rate_map = AniMAIRE.create_single_dose_map_plot(test_anisotropic_dose_rates,
-                            			      selected_altitude_in_km = 12.1920)
+AniMAIRE.plot_dose_map(test_anisotropic_dose_rates.query("`altitude (km)` == 12.1920"),
+                                         hue_range=(0,9))
 ```
 is run:
 
