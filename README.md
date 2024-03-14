@@ -294,7 +294,7 @@ anisotropic_dose_rate_map = AniMAIRE.create_single_dose_map_plot(test_anisotropi
 ```
 is run:
 
-![anisotropic_test_plot](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Isotropic_40kft_example.svg)
+![anisotropic_test_plot](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Anisotropic_40kft_example.svg)
 
 
 you can also produce similar plotly plots if you prefer plotly to matplotlib using:
