@@ -215,13 +215,12 @@ where `DF_to_use` is the Pandas DataFrame outputted by a run of `AniMAIRE` and a
 
 To use this function to create a map of the isotropic situation as given as an example above, you could run 
 ```
-isotropic_dose_rate_map = AniMAIRE.create_single_dose_map_plot(test_isotropic_dose_rates,
-                            			      selected_altitude_in_km = 12.1920)
+AniMAIRE.plot_dose_map(test_isotropic_dose_rates.query("`altitude (km)` == 12.1920"),
+                                         hue_range=(0,9))
 ```
 
-which should plot the following figure as a plotly plot:
-
-![isotropic_test_plot](https://user-images.githubusercontent.com/16866485/223750107-402e56f6-bea1-48b4-83e9-2179be7f7449.png)
+which should plot the following figure as a matplotlib plot:
+![isotropic_test_plot](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Isotropic_40kft_example.svg)
 
 and assign the plot to the `isotropic_dose_rate_map` variable for the user to use as they wish.
 
@@ -294,6 +293,16 @@ anisotropic_dose_rate_map = AniMAIRE.create_single_dose_map_plot(test_anisotropi
                             			      selected_altitude_in_km = 12.1920)
 ```
 is run:
+
+![anisotropic_test_plot](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Isotropic_40kft_example.svg)
+
+
+you can also produce similar plotly plots if you prefer plotly to matplotlib using:
+```
+anisotropic_dose_rate_map = AniMAIRE.create_single_dose_map_plot(test_anisotropic_dose_rates,
+                            			      selected_altitude_in_km = 12.1920)
+```
+which generates the following plot:
 
 ![anisotropic_test_plot](https://user-images.githubusercontent.com/16866485/223751057-5d0cff98-cf9e-4654-b71f-d1ae55c75602.png)
 
