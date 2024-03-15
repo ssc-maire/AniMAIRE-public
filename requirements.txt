@@ -8,7 +8,6 @@ setuptools>=45.2.0
 spacepy>=0.3.0
 tqdm>=4.65.0
 plotly>=5.9.0
-wheel>=0.41.2
 numba>=0.57.1
 metpy>=1.5.1
 CosRayModifiedISO >= 1.2.3
