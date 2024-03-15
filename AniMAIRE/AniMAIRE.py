@@ -22,6 +22,7 @@ def run_from_spectra(
         Kp_index=None,
         date_and_time=dt.datetime.utcnow(),
         array_of_lats_and_longs=default_array_of_lats_and_longs,
+        array_of_zeniths_and_azimuths=np.array([[0.0, 0.0]]),
         cache_magnetocosmics_run=True,
         generate_NM_count_rates=False,
         use_default_9_zeniths_azimuths=False,
