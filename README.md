@@ -10,6 +10,8 @@ You can use AniMAIRE to produce dose rate data and maps throughout large space w
 
 <img src="https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp1_with_legend.svg" width="350"/> <img src="https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp5_with_legend.svg" width="350"/> 
 
+Feel free to contribute to this package through forks and pull requests; the package is intended for usage and potential modification by the community. If you have any questions about this software, please contact myself, https://github.com/ChrisSWDavis, the primary author of this package.
+
 <!-- ![An example map of dose rates during a large space weather event](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp1_with_legend.svg) | ![An example animation of dose rates during a large space weather event](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/39kft_heatmap_animation_no_contours_anisotropic.gif) -->
 
 ## Installation
