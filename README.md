@@ -145,18 +145,25 @@ def run_from_spectra(
         Kp_index=None,
         date_and_time=dt.datetime.now(),
         array_of_lats_and_longs=default_array_of_lats_and_longs,
+        array_of_zeniths_and_azimuths=np.array([[0.0, 0.0]]),
         cache_magnetocosmics_run=True,
-
+        generate_NM_count_rates=False,
+        use_default_9_zeniths_azimuths=False,
+        **mag_cos_kwargs
 )
 ```
 
 `run_from_spectra` performs a run at a single date and time and Kp index to calculate dose rates across Earth's atmosphere based on proton, alpha particle, or proton + alpha particle spectra. **Particle spectra here must be described in units of cm-2 s-1 sr-1 (GV/n)-1, and with respect to rigidity in units of GV**.
 
-Particle spectra, as well as pitch angle distributions, can be set as any 'callable' object in Python, i.e. a function, as will be shown in examples below. At least one particle spectrum must be specified, as well as a Kp index, so this function to execute successfully. For runs designed to simulate dose rates during particular dates and times, the argument `date_and_time` must also be supplied with a Python `datetime` corresponding to the timestamp being investigated (by default, the function assumes that the current date and time should be used).
+Particle spectra and pitch angle distributions can be set as any 'callable' object in Python, i.e., a function, as shown in examples below. At least one particle spectrum must be specified, as well as a Kp index, so this function to execute successfully. For runs designed to simulate dose rates during particular dates and times, the argument `date_and_time` must also be supplied with a Python `datetime` corresponding to the timestamp being investigated (by default, the function assumes that the current date and time should be used).
 
-Note that while this function takes an alpha particle spectrum as an input, it actually interpolates the dose rates due to alpha particles to those of heavier ions too, so outputted dose rates due to an alpha particle spectrum are in fact the combined total of all ions heavier than protons.
+Note that while this function can optionally take an alpha particle spectrum as an input, it actually interpolates the dose rates due to alpha particles to those of heavier ions too, so outputted dose rates due to an alpha particle spectrum are in fact the combined total of all ions heavier than protons.
 
-`AniMAIRE` performs runs of the MAGNETOCOSMICS as part of dose rate calculations (using the [AsympDirsCalculator](https://github.com/ssc-maire/AsymptoticDirectionsCalculator) package), and these currently take up by far the majority of `AniMAIRE` runtime - on the order of over half an hour on the developer's computer versus less than 6 minutes for the rest of the program. Therefore if the `cache_magnetocosmics_run` argument is set to `True`, which it is by default, `AniMAIRE` will cache the results of MAGNETOCOSMICS simulations in the directory that `AniMAIRE` is run from in the generated `cachedMagnetocosmicsRunData` and `cacheAsymptoticDirectionOutputs` directories. This significantly speeds up any tasks where users wish to investigate a constant `Kp_index` and `date_and_time`, but wish to vary the spectrum and pitch angle distribution and investigate how dose rates are impacted, as magnetocosmics runs are only performed once.
+Several types of runs can be performed with AniMAIRE; for instance, only vertical asymptotic directions are used to calculate dose rates by default. You can optionally set `use_default_9_zeniths_azimuths` to `True` to use the mean of nine different asymptotic directions to calculate dose rates, as was done by [Cramp et al. (1997)](https://doi.org/10.1029/97JA01947), to calculate dose rates during particularly complex events (note that this means calculations will take approximately nine times longer). You can also manually set your own choice of asymptotic directions for taking the average using the `array_of_zeniths_and_azimuths` variable.
+
+`AniMAIRE` performs runs of the MAGNETOCOSMICS as part of dose rate calculations (using the [AsympDirsCalculator](https://github.com/ssc-maire/AsymptoticDirectionsCalculator) package), and these currently take up by far the majority of `AniMAIRE` runtime - on the order of over half an hour on the developer's computer versus less than 6 minutes for the rest of the program. Therefore if the `cache_magnetocosmics_run` argument is set to `True`, which it is by default, `AniMAIRE` will cache the results of MAGNETOCOSMICS simulations in the directory that `AniMAIRE` is run from in the generated `cachedMagnetocosmicsRunData` and `cacheAsymptoticDirectionOutputs` directories. This significantly speeds up any tasks where users wish to investigate a constant `Kp_index` and `date_and_time`, but wish to vary the spectrum and pitch angle distribution and investigate how dose rates are impacted, as magnetocosmics runs are only performed once. 
+
+You can pass settings and variables to `AsympDirsCalculator` through adding additional keyword arguments to `run_from_spectra` with the same names as the arguments given on the [AsympDirsCalculator Github page](https://github.com/ssc-maire/AsymptoticDirectionsCalculator). These settings and variable get assigned to the `**mag_cos_kwargs` object, and passed to `AsympDirsCalculator` by `AniMAIRE`.
 
 ### Simple isotropic runs and plotting
 
@@ -232,9 +239,12 @@ where `DF_to_use` is the Pandas DataFrame outputted by a run of `AniMAIRE` and a
 To use this function to create a map of the isotropic situation as given as an example above, you could run 
 ```
 from AniMAIRE import dose_plotting
+import matplotlib.pyplot as plt
 
 dose_plotting.plot_dose_map(test_isotropic_dose_rates.query("`altitude (km)` == 12.1920"),
                                          hue_range=(0,9))
+
+plt.show()
 ```
 
 which should plot the following figure as a matplotlib plot:
@@ -308,9 +318,12 @@ In this case printing `test_anisotropic_dose_rates` should output:
 which will produce the following plot when
 ```
 from AniMAIRE import dose_plotting
+import matplotlib.pyplot as plt
 
 dose_plotting.plot_dose_map(test_anisotropic_dose_rates.query("`altitude (km)` == 12.1920"),
                                          hue_range=(0,9))
+
+plt.show()
 ```
 is run, as was described previously in this README for isotropic plotting:
 
