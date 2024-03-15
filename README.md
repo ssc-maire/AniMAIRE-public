@@ -236,7 +236,7 @@ def create_single_dose_map_plotly(DF_to_use,
 ```
 where `DF_to_use` is the Pandas DataFrame outputted by a run of `AniMAIRE` and altitude is one of the altitudes in kilometers supplied to/outputted by the run.
 
-To use this function to create a map of the isotropic situation as given as an example above, you could run 
+To use the matplotlib function to create a map of the isotropic situation as given as an example above, you could run 
 ```
 from AniMAIRE import dose_plotting
 import matplotlib.pyplot as plt
