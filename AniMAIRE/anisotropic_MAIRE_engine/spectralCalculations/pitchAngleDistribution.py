@@ -59,8 +59,8 @@ class gaussianPitchAngleDistribution(pitchAngleDistribution):
         self.normFactor = normFactor
         self.sigma = sigma
         self.alpha = alpha
-        with open("MishevsavedPAD.pkl","wb") as MishevPADFile:
-            pkl.dump(self,MishevPADFile)
+        with open("CommonsavedPAD.pkl","wb") as CommonPADFile:
+            pkl.dump(self,CommonPADFile)
 
 class gaussianBeeckPitchAngleDistribution(pitchAngleDistribution):
 

@@ -79,7 +79,7 @@ class DLRmodelSpectrum(rigiditySpectrum):
         with open("DLRsavedSpectrum.pkl","wb") as DLRspecFile:
             pkl.dump(self,DLRspecFile)
 
-class MishevModifiedPowerLawSpectrum(rigiditySpectrum):
+class CommonModifiedPowerLawSpectrum(rigiditySpectrum):
 
     specIndexModification = lambda self,P:self.deltaGamma * (P-1)
     rigiditySpec = lambda self,P:self.J0 * self.step_function(P, self.lowerLimit, self.upperLimit) * (P**(-(self.gamma + self.specIndexModification(P)))) / (100**2) #cm-2 s-1 sr-1 GV-1 : converted from m-2 to cm-2
@@ -93,8 +93,8 @@ class MishevModifiedPowerLawSpectrum(rigiditySpectrum):
         self.gamma = gamma
         self.deltaGamma = deltaGamma
 
-        with open("MishevsavedSpectrum.pkl","wb") as MishevspecFile:
-            pkl.dump(self,MishevspecFile)
+        with open("CommonsavedSpectrum.pkl","wb") as CommonspecFile:
+            pkl.dump(self,CommonspecFile)
 
     def step_function(self, rigidity, lowerLimit, upperLimit):
         
@@ -103,7 +103,7 @@ class MishevModifiedPowerLawSpectrum(rigiditySpectrum):
         else:
             return 0.0
 
-class MishevModifiedPowerLawSpectrumSplit(rigiditySpectrum):
+class CommonModifiedPowerLawSpectrumSplit(rigiditySpectrum):
 
     specIndexModification_high = lambda self,P:self.deltaGamma * (P-1)
     specIndexModification_low = lambda self,P:self.deltaGamma * (P)
@@ -116,5 +116,5 @@ class MishevModifiedPowerLawSpectrumSplit(rigiditySpectrum):
         self.gamma = gamma
         self.deltaGamma = deltaGamma
 
-        with open("MishevsavedSpectrum.pkl","wb") as MishevspecFile:
-            pkl.dump(self,MishevspecFile)
+        with open("CommonsavedSpectrum.pkl","wb") as CommonspecFile:
+            pkl.dump(self,CommonspecFile)

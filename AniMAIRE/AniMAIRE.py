@@ -4,7 +4,7 @@ import spaceweather as sw
 import pandas as pd
 
 from .utils import get_correctly_formatted_particle_dist_list
-from .anisotropic_MAIRE_engine.spectralCalculations.rigiditySpectrum import DLRmodelSpectrum, MishevModifiedPowerLawSpectrum, MishevModifiedPowerLawSpectrumSplit
+from .anisotropic_MAIRE_engine.spectralCalculations.rigiditySpectrum import DLRmodelSpectrum, CommonModifiedPowerLawSpectrum, CommonModifiedPowerLawSpectrumSplit
 from .anisotropic_MAIRE_engine.spectralCalculations.pitchAngleDistribution import gaussianBeeckPitchAngleDistribution, isotropicPitchAngleDistribution, gaussianPitchAngleDistribution
 from .anisotropic_MAIRE_engine.generalEngineInstance import generalEngineInstance, default_array_of_lats_and_longs
 
@@ -22,7 +22,6 @@ def run_from_spectra(
         Kp_index=None,
         date_and_time=dt.datetime.utcnow(),
         array_of_lats_and_longs=default_array_of_lats_and_longs,
-        array_of_zeniths_and_azimuths=np.array([[0.0, 0.0]]),
         cache_magnetocosmics_run=True,
         generate_NM_count_rates=False,
         use_default_9_zeniths_azimuths=False,
@@ -73,9 +72,9 @@ def run_from_power_law_gaussian_distribution(J0, gamma, deltaGamma, sigma,
                                              **kwargs):
     
     if use_split_spectrum == True:
-        spec_to_use = MishevModifiedPowerLawSpectrumSplit
+        spec_to_use = CommonModifiedPowerLawSpectrumSplit
     else:
-        spec_to_use = MishevModifiedPowerLawSpectrum
+        spec_to_use = CommonModifiedPowerLawSpectrum
         
 
     output_dose_rate_DF = run_from_spectra(
@@ -97,9 +96,9 @@ def run_from_double_power_law_gaussian_distribution(J0, gamma, deltaGamma, sigma
                                              **kwargs):
     
     if use_split_spectrum == True:
-        spec_to_use = MishevModifiedPowerLawSpectrumSplit
+        spec_to_use = CommonModifiedPowerLawSpectrumSplit
     else:
-        spec_to_use = lambda J0,gamma,deltaGamma:MishevModifiedPowerLawSpectrum(J0,gamma,deltaGamma, lowerLimit=0.814529,upperLimit=21.084584)
+        spec_to_use = lambda J0,gamma,deltaGamma:CommonModifiedPowerLawSpectrum(J0,gamma,deltaGamma, lowerLimit=0.814529,upperLimit=21.084584)
         
 
     output_dose_rate_DF = run_from_spectra(
@@ -120,9 +119,9 @@ def run_from_power_law_Beeck_gaussian_distribution(J0, gamma, deltaGamma, A, B,
                                              **kwargs):
     
     if use_split_spectrum == True:
-        spec_to_use = MishevModifiedPowerLawSpectrum
+        spec_to_use = CommonModifiedPowerLawSpectrum
     else:
-        spec_to_use = MishevModifiedPowerLawSpectrumSplit
+        spec_to_use = CommonModifiedPowerLawSpectrumSplit
 
     output_dose_rate_DF = run_from_spectra(
         proton_rigidity_spectrum=spec_to_use(J0, gamma, deltaGamma),
