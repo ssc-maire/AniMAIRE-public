@@ -223,12 +223,6 @@ Any particular altitudes the user wants to use can be supplied to `altitudes_in_
 If you want to perform calculations only at a specific set of latitudes and longitudes you should use the `array_of_lats_and_longs` argument, supplying it as a 2 dimensional `list` or numpy array, where the first column refers to latitudes and the second column refers to longitudes. All longitudes in this case should be specified in terms of longitude east (i.e. 0.00 degrees - 359.99 degrees). **Using the `array_of_lats_and_longs` argument significantly speeds up the running of `AniMAIRE` if you're only interested in a small number of coordinates, so its use is highly recommended in those situations.**
 
 There are many ways you could plot this data. Several example functions,`plot_dose_map` and `create_single_dose_map_plotly`, have been supplied in `AniMAIRE` that uses matplotlib or plotly to plot the dose rates across Earth (i.e. as a function of latitude and longitude) at a given altitude. Both of these functions are available in the `dose_plotting` submodule supplied with AniMAIRE. Their specifications are the following:
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> 8cd0505f6cee775badf8f4abb25e70ae2c943777
-
 ```
 def plot_dose_map(map_to_plot,
                   plot_title=None,
@@ -237,29 +231,9 @@ def plot_dose_map(map_to_plot,
                     **kwargs)
 ```
 for matplotlib plots, where map_to_plot is the Pandas DataFrame outputted by a run of `AniMAIRE`, with only one altitude selected. `plot_contours` can be switched on or off to control whether contours are added to the plot, and `levels` can be used to specify to number of contours and/or dose rates for the contours to correspond to. `hue_range` can also be supplied with a 2-value tuple to specify the limits of the colorbar to be plotted with the plot. 
-<<<<<<< HEAD
->>>>>>> 8cd0505f6cee775badf8f4abb25e70ae2c943777
 
-To generate a plotly plot, you can run 
+To generate a plotly plot, you can run
 ```
-<<<<<<< HEAD
-def plot_dose_map(map_to_plot,
-                  plot_title=None,
-                  plot_contours=True,
-                  levels=3,
-                    **kwargs)
-```
-for matplotlib plots, where map_to_plot is the Pandas DataFrame outputted by a run of `AniMAIRE`, with only one altitude selected. `plot_contours` can be switched on or off to control whether contours are added to the plot, and `levels` can be used to specify to number of contours and/or dose rates for the contours to correspond to. `hue_range` can also be supplied with a 2-value tuple to specify the limits of the colorbar to be plotted with the plot. 
-
-To generate a plotly plot, you can run 
-```
-=======
->>>>>>> 8cd0505f6cee775badf8f4abb25e70ae2c943777
-=======
-
-To generate a plotly plot, you can run 
-```
->>>>>>> 8cd0505f6cee775badf8f4abb25e70ae2c943777
 def create_single_dose_map_plotly(DF_to_use,
                                 selected_altitude_in_km)
 ```
