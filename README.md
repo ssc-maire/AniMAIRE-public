@@ -224,7 +224,10 @@ If you want to perform calculations only at a specific set of latitudes and long
 
 There are many ways you could plot this data. Several example functions,`plot_dose_map` and `create_single_dose_map_plotly`, have been supplied in `AniMAIRE` that uses matplotlib or plotly to plot the dose rates across Earth (i.e. as a function of latitude and longitude) at a given altitude. Both of these functions are available in the `dose_plotting` submodule supplied with AniMAIRE. Their specifications are the following:
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> 8cd0505f6cee775badf8f4abb25e70ae2c943777
 
 ```
 def plot_dose_map(map_to_plot,
@@ -234,6 +237,7 @@ def plot_dose_map(map_to_plot,
                     **kwargs)
 ```
 for matplotlib plots, where map_to_plot is the Pandas DataFrame outputted by a run of `AniMAIRE`, with only one altitude selected. `plot_contours` can be switched on or off to control whether contours are added to the plot, and `levels` can be used to specify to number of contours and/or dose rates for the contours to correspond to. `hue_range` can also be supplied with a 2-value tuple to specify the limits of the colorbar to be plotted with the plot. 
+<<<<<<< HEAD
 >>>>>>> 8cd0505f6cee775badf8f4abb25e70ae2c943777
 
 To generate a plotly plot, you can run 
@@ -250,6 +254,11 @@ for matplotlib plots, where map_to_plot is the Pandas DataFrame outputted by a r
 To generate a plotly plot, you can run 
 ```
 =======
+>>>>>>> 8cd0505f6cee775badf8f4abb25e70ae2c943777
+=======
+
+To generate a plotly plot, you can run 
+```
 >>>>>>> 8cd0505f6cee775badf8f4abb25e70ae2c943777
 def create_single_dose_map_plotly(DF_to_use,
                                 selected_altitude_in_km)
