@@ -92,6 +92,8 @@ from AniMAIRE import AniMAIRE
 ```
 All of the main useful functions are contained within this `AniMAIRE` module, and all other modules contained in this toolkit are primarily intended to be accessed internally (although don't let that stop you from using or editing them for your own purposes if you wish).
 
+The rest of the README file describes how to run AniMAIRE to produce dose rates for different input parameters. You can also look at and run the examples present in the `AniMAIRE_examples.ipynb` notebook, and the advanced examples in the `notebooks_and_data_and_figures_for_paper/GLE71_plots_for_paper.ipynb` notebook to learn and see in practice how AniMAIRE can be used.
+
 ## Testing that AniMAIRE is working
 
 To test that AniMAIRE works, you can run:
