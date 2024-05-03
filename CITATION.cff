@@ -6,6 +6,7 @@ authors:
   orcid: "https://orcid.org/0000-0002-8096-1383"
 - family-names: "Lei"
   given-names: "Fan"
+  orcid: "https://orcid.org/0000-0002-4365-988X"
 - family-names: "Baird"
   given-names: "Fraser"
   orcid: "https://orcid.org/0000-0002-8437-7440"
@@ -16,7 +17,7 @@ authors:
   given-names: "Clive"
   orcid: "https://orcid.org/0000-0002-3778-9821"
 title: "AniMAIRE-public"
-version: 1.1.5
+version: 1.1.6
 doi: 10.5281/zenodo.10992643
 date-released: 2024-04-22
 url: "https://github.com/ssc-maire/AniMAIRE-public"
