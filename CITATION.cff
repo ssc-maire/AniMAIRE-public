@@ -27,7 +27,6 @@ authors:
 title: "AniMAIRE-public"
 type: software
 version: 1.1.7
-doi: 10.5281/zenodo.10992643
 contact:
 - family-names: "Davis"
   given-names: "Christopher Stephen William"
@@ -38,4 +37,6 @@ contact:
   website: "https://www.researchgate.net/profile/Chris-Davis-13"
 date-released: 2024-04-22
 url: "https://github.com/ssc-maire/AniMAIRE-public"
-repository: "https://github.com/ssc-maire/AniMAIRE-public"
+repository-code: "https://github.com/ssc-maire/AniMAIRE-public"
+repository-artifact: "pypi.org/project/AniMAIRE/"
+doi: 10.5281/zenodo.10992643
