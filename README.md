@@ -4,7 +4,7 @@ A Python toolkit for calculating dose rates and aircraft electronics upset rates
 
 **N.B. Currently this tool only runs on Linux-based machines (not on Windows) and requires a copy of [MAGNETOCOSMICS](http://cosray.unibe.ch/~laurent/magnetocosmics/) to be installed.**
 
-If you use this software for scientific research, please reference AniMAIRE as **C. S. W. Davis, F. Lei, F. Baird, K. Ryden and C. Dyer (2023). AniMAIRE version {version number}. https://github.com/ssc-maire/AniMAIRE-public , https://pypi.org/project/AniMAIRE/ . Surrey Space Center, University of Surrey.**. A scientific paper about this software is currently in production.
+If you use this software for scientific research, please reference AniMAIRE as **C. S. W. Davis, F. Lei, F. Baird, K. Ryden and C. Dyer (2023). AniMAIRE version {version number}. https://github.com/ssc-maire/AniMAIRE-public , https://pypi.org/project/AniMAIRE/ . Surrey Space Center, University of Surrey.**. A scientific paper about this software is currently in production, and we recently published a preprint, [which can be found here](https://www.researchgate.net/publication/380403797_AniMAIRE_-_A_New_Openly_Available_Tool_for_Calculating_Atmospheric_Ionising_Radiation_Dose_Rates_and_Single_Event_Effects_During_Anisotropic_Conditions), about AniMAIRE and some interesting scientific findings we've made using our work with AniMAIRE so far.
 
 You can use AniMAIRE to produce dose rate data and maps throughout large space weather events and plot them like this:
 
