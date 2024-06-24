@@ -1,26 +1,7 @@
 cff-version: 1.2.0
 message: "A Python toolkit for calculating dose rates in Earth's atmosphere based on any incoming proton or alpha particle spectra, with any pitch angle distribution, and during any magnetospheric conditions. AniMAIRE can be installed either from its homepage at https://github.com/ssc-maire/AniMAIRE-public or directly from PyPi at pypi.org/project/AniMAIRE/ . Details on usage and installation can be found in the README file. If you use this software, please cite it as specified in the CITATION.cff file or in the formats listed elsewhere. "
 authors:
-- family-names: "Davis"
-  given-names: "Christopher Stephen William"
-  orcid: "https://orcid.org/0000-0002-8096-1383"
-  affiliation: "University of Surrey"
-- family-names: "Lei"
-  given-names: "Fan"
-  orcid: "https://orcid.org/0000-0002-4365-988X"
-  affiliation: "University of Surrey"
-- family-names: "Baird"
-  given-names: "Fraser"
-  orcid: "https://orcid.org/0000-0002-8437-7440"
-  affiliation: "University of Surrey"
-- family-names: "Ryden"
-  given-names: "Keith"
-  orcid: "https://orcid.org/0000-0002-1963-6696"
-  affiliation: "University of Surrey"
-- family-names: "Dyer"
-  given-names: "Clive"
-  orcid: "https://orcid.org/0000-0002-3778-9821"
-  affiliation: "University of Surrey, CSDRadConsulting"
+- alias: "Space Environment and Protection Group, University of Surrey"
 title: "AniMAIRE-public"
 type: software
 contact:
