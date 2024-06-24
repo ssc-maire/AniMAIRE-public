@@ -4,7 +4,7 @@ A Python toolkit for calculating dose rates and aircraft electronics upset rates
 
 **N.B. Currently this tool only runs on Linux-based machines (not on Windows) and requires a copy of [MAGNETOCOSMICS](http://cosray.unibe.ch/~laurent/magnetocosmics/) to be installed.**
 
-If you use this software for scientific research, please reference AniMAIRE as **C. S. W. Davis, F. Lei, F. Baird, K. Ryden and C. Dyer (2023). AniMAIRE version {version number}. https://github.com/ssc-maire/AniMAIRE-public , https://pypi.org/project/AniMAIRE/ . Surrey Space Center, University of Surrey.**. 
+If you use this software for scientific research, please reference AniMAIRE according to the appropriate journal publication rules.
 
 A scientific paper about this software is currently in production, and we recently published a preprint, [which can be found here](https://www.researchgate.net/publication/380403797_AniMAIRE_-_A_New_Openly_Available_Tool_for_Calculating_Atmospheric_Ionising_Radiation_Dose_Rates_and_Single_Event_Effects_During_Anisotropic_Conditions), about AniMAIRE and some interesting scientific findings we've made using our work with AniMAIRE so far.
 
@@ -12,7 +12,7 @@ You can use AniMAIRE to produce dose rate data and maps throughout large space w
 
 <img src="https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp1_with_legend.svg" width="350"/> <img src="https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp5_with_legend.svg" width="350"/> 
 
-Feel free to contribute to this package through forks and pull requests; the package is intended for usage and potential modification by the community. If you have any questions about this software, please contact myself, https://github.com/ChrisSWDavis, the primary author of this package.
+Feel free to contribute to this package through forks and pull requests; the package is intended for usage and potential modification by the community.
 
 <!-- ![An example map of dose rates during a large space weather event](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp1_with_legend.svg) | ![An example animation of dose rates during a large space weather event](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/39kft_heatmap_animation_no_contours_anisotropic.gif) -->
 
@@ -82,7 +82,7 @@ Test
 G4CashKarpRKF45 is called
 ```
 
-Feel free to contribute to this package through forks and pull requests; the package is intended for usage and potential modification by the community. If you have any questions about this software, please contact myself, [https://github.com/ChrisSWDavis](https://github.com/ChrisSWDavis), the primary author of this package. 
+Feel free to contribute to this package through forks and pull requests; the package is intended for usage and potential modification by the community.
 
 While this package is new, it fundamentally relies on Magnetocosmics through the [AsympDirsCalculator package](https://github.com/ssc-maire/AsymptoticDirectionsCalculator-public), and it is likely that the community will eventually create a successor for Magnetocosmics. One attempt to do this is the [OTSO software](https://github.com/NLarsen15/OTSO), which is also designed to be open-source and community oriented. We hope that in the future, AniMAIRE could be integrated with OTSO. 
 
