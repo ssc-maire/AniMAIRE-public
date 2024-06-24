@@ -23,12 +23,11 @@ setup(
     package_data={"AniMAIRE":[
                                 "anisotropic_MAIRE_engine/data/*.csv"
                                          ]},
-    version='1.1.8',
+    version='1.1.9',
     description='Python library for running the anisotropic version of MAIRE+',
     long_description=long_description,
     long_description_content_type='text/markdown',
-    author='Chris S. W. Davis',
-    author_email='ChrisSWDavis@gmail.com',
+    author='Space Environment and Protection Group, University of Surrey',
     license='GNU General Public License v3.0',
     url='https://github.com/ssc-maire/AniMAIRE-public',
     keywords='anisotropic MAIRE+ atmospheric ionizing radiation dose rates cosmic rays ground level enhancements GLEs protons alpha particles neutrons effective ambient equivalent aircraft aviation Earth solar system sun space magnetic field',
