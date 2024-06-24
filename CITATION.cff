@@ -26,15 +26,7 @@ authors:
   affiliation: "University of Surrey, CSDRadConsulting"
 title: "AniMAIRE-public"
 type: software
-version: 1.1.8
-contact:
-- family-names: "Davis"
-  given-names: "Christopher Stephen William"
-  orcid: "https://orcid.org/0000-0002-8096-1383"
-  affiliation: "University of Surrey"
-  alias: "ChrisSWDavis"
-  email: "ChrisSWDavis@gmail.com"
-  website: "https://www.researchgate.net/profile/Chris-Davis-13"
+version: 1.1.9
 date-released: 2024-04-22
 url: "https://github.com/ssc-maire/AniMAIRE-public"
 repository-code: "https://github.com/ssc-maire/AniMAIRE-public"
