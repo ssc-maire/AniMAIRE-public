@@ -12,8 +12,6 @@ You can use AniMAIRE to produce dose rate data and maps throughout large space w
 
 <img src="https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp1_with_legend.svg" width="350"/> <img src="https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp5_with_legend.svg" width="350"/> 
 
-Feel free to contribute to this package through forks and pull requests; the package is intended for usage and potential modification by the community.
-
 <!-- ![An example map of dose rates during a large space weather event](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp1_with_legend.svg) | ![An example animation of dose rates during a large space weather event](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/39kft_heatmap_animation_no_contours_anisotropic.gif) -->
 
 ## Installation
@@ -81,8 +79,6 @@ Test97
 Test
 G4CashKarpRKF45 is called
 ```
-
-Feel free to contribute to this package through forks and pull requests; the package is intended for usage and potential modification by the community.
 
 While this package is new, it fundamentally relies on Magnetocosmics through the [AsympDirsCalculator package](https://github.com/ssc-maire/AsymptoticDirectionsCalculator-public), and it is likely that the community will eventually create a successor for Magnetocosmics. One attempt to do this is the [OTSO software](https://github.com/NLarsen15/OTSO), which is also designed to be open-source and community oriented. We hope that in the future, AniMAIRE could be integrated with OTSO. 
 
