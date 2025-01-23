@@ -17,4 +17,6 @@ geopandas >= 0.11.1
 joblib >= 1.2.0
 spaceweather>=0.2.4
 atmosphericRadiationDoseAndFlux >= 1.0.3
+kpindex >= 2.0.0
+ipywidgets >= 8.1.5
 

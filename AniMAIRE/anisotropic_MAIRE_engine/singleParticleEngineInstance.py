@@ -4,12 +4,14 @@ from pandarallel import pandarallel
 pandarallel.initialize(progress_bar=True)
 from atmosphericRadiationDoseAndFlux import doseAndFluxCalculator as DAFcalc
 from scipy.interpolate import interp1d
-from scipy.integrate import trapz
+from scipy.integrate import trapezoid
 import ParticleRigidityCalculationTools as PRCT
 
 from .data.NM64_responses import get_NM64_response_value_altitude, response_value_epns
 from .AsymptoticDirectionProcessing import acquireWeightingFactors, get_apply_method
 from .spectralCalculations.particleDistribution import particleDistribution
+#import warnings
+#warnings.filterwarnings("ignore", category=UserWarning)
 
 class singleParticleEngineInstance():
 
@@ -75,7 +77,7 @@ class singleParticleEngineInstance():
                                                            self.particle_distribution.particle_species.particleName)
         
         df_with_weighting_factors.to_pickle("weighting_factor_DF.pkl")
-        sortedOutputDoseRates.weighting_factor_input_DF = df_with_weighting_factors
+        sortedOutputDoseRates.attrs['weighting_factor_input_DF'] = df_with_weighting_factors
         
         print("output dose rates calculated successfully!")
 
@@ -152,7 +154,7 @@ class singleParticleEngineInstance():
         spectra_weighting_factors_across_NM = NM64_response_to_use["Rigidity"].apply(interpolated_spectra_row)
         
         full_NM64_spectra_weighting_factor = spectra_weighting_factors_across_NM * NM64_response_to_use["Rigidity distribution values"]
-        output_unnormalised_NM64_cr = trapz(full_NM64_spectra_weighting_factor, NM64_response_to_use["Rigidity"])
+        output_unnormalised_NM64_cr = trapezoid(full_NM64_spectra_weighting_factor, NM64_response_to_use["Rigidity"])
         return output_unnormalised_NM64_cr
 
     def reinsert_original_lats_and_longs(self, new_doserates_DF:pd.DataFrame,original_data_frame:pd.Series):
