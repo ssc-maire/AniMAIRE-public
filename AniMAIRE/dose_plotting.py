@@ -4,6 +4,8 @@ from scipy.interpolate import NearestNDInterpolator
 import matplotlib.pyplot as plt
 import seaborn as sns
 import geopandas
+import pandas as pd
+pd.options.mode.chained_assignment = None
 
 def plot_dose_map_contours(dose_map_to_plot,levels=3,**kwargs):
 
@@ -67,7 +69,7 @@ def create_single_dose_map_plot_plt(heatmap_DF_to_Plot,
         # Remove the legend and add a colorbar
         #scatterPlotAxis.get_legend().remove()
         #colorbar = scatterPlotAxis.figure.colorbar(sm,label=legend_label,shrink=0.4)
-        colorbar = scatterPlotAxis.figure.colorbar(sm,label=legend_label,orientation="horizontal")
+        colorbar = scatterPlotAxis.figure.colorbar(sm,label=legend_label,orientation="horizontal",ax=plt.gca())
     else:
         colorbar = None
 
@@ -77,12 +79,15 @@ def create_single_dose_map_plot_plt(heatmap_DF_to_Plot,
     plt.xlabel("Longitude (degrees)")
     plt.ylabel("Latitude (degrees)")
 
-    world = geopandas.read_file(geopandas.datasets.get_path('naturalearth_lowres'))
-    world.plot(color="None",edgecolor="black",lw=0.35,ax=scatterPlotAxis,zorder=20)
-    if plot_longitude_east is True:
-        world['geometry'] = world['geometry'].translate(xoff=360)
+    try:
+        world = geopandas.read_file("https://naciscdn.org/naturalearth/110m/cultural/ne_110m_admin_0_countries.zip")
         world.plot(color="None",edgecolor="black",lw=0.35,ax=scatterPlotAxis,zorder=20)
-        plt.xlim([0,355])
+        if plot_longitude_east is True:
+            world['geometry'] = world['geometry'].translate(xoff=360)
+            world.plot(color="None",edgecolor="black",lw=0.35,ax=scatterPlotAxis,zorder=20)
+            plt.xlim([0,355])
+    except:
+        print("ERROR: was not able to plot world map - note that with the current geopandas implementation you need internet access to access the world map file. Plotting will continue anyways, but without the outline of Earth.")
 
     ####################################################################
 
