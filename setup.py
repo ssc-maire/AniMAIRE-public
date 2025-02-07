@@ -1,3 +1,7 @@
+"""
+Setup script for the AniMAIRE package.
+"""
+
 from setuptools import find_packages, setup
 import os
 import glob as gb

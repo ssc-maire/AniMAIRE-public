@@ -1,6 +1,6 @@
 ![The AniMAIRE logo](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/AniMAIRE_logo.svg)
 
-A Python toolkit for calculating dose rates and aircraft electronics upset rates in Earth's atmosphere based on any incoming proton or alpha particle spectra, with any pitch angle distribution. 
+A Python toolkit for calculating dose rates and aircraft electronics upset rates in Earth's atmosphere based on any incoming proton or alpha particle spectra, with any pitch angle distribution.
 
 **N.B. Currently this tool only runs on Linux-based machines (not on Windows) and requires a copy of [MAGNETOCOSMICS](http://cosray.unibe.ch/~laurent/magnetocosmics/) to be installed.**
 
@@ -10,7 +10,7 @@ A scientific paper about this software is currently in production, and we recent
 
 You can use AniMAIRE to produce dose rate data and maps throughout large space weather events and plot them like this:
 
-<img src="https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp1_with_legend.svg" width="350"/> <img src="https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp5_with_legend.svg" width="350"/> 
+<img src="https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp1_with_legend.svg" width="350"/> <img src="https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp5_with_legend.svg" width="350"/>
 
 <!-- ![An example map of dose rates during a large space weather event](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Ani_GLE_only_timestamp1_with_legend.svg) | ![An example animation of dose rates during a large space weather event](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/39kft_heatmap_animation_no_contours_anisotropic.gif) -->
 
@@ -18,27 +18,29 @@ You can use AniMAIRE to produce dose rate data and maps throughout large space w
 
 To install this toolkit using the common pip Python method, run
 
-```
+```bash
 pip install AniMAIRE
 ```
 
 Otherwise, to install this toolkit from this Github repository, first clone this repository to your local system, and then from the cloned respository, run
 
-```
+```bash
 sudo pip3 install .
 ```
 
-in the cloned directory. 
+in the cloned directory.
 
 Note that there are quite a few sizeable data files within some of the dependencies for this package that get copied during installation (on the order of about several hundred megabytes in total) so installation may take a couple of minutes.
 
 **To use this package you must have a version of magnetocosmics installed, such that magnetocosmics can be run by typing 'magnetocosmics' the terminal, i.e. typing:**
 
+```bash
+magnetocosmics
 ```
-$ magnetocosmics
-```
+
 outputs something like the following:
-```
+
+```text
 
 
           ################################
@@ -80,14 +82,16 @@ Test
 G4CashKarpRKF45 is called
 ```
 
-While this package is new, it fundamentally relies on Magnetocosmics through the [AsympDirsCalculator package](https://github.com/ssc-maire/AsymptoticDirectionsCalculator-public), and it is likely that the community will eventually create a successor for Magnetocosmics. One attempt to do this is the [OTSO software](https://github.com/NLarsen15/OTSO), which is also designed to be open-source and community oriented. We hope that in the future, AniMAIRE could be integrated with OTSO. 
+While this package is new, it fundamentally relies on Magnetocosmics through the [AsympDirsCalculator package](https://github.com/ssc-maire/AsymptoticDirectionsCalculator-public), and it is likely that the community will eventually create a successor for Magnetocosmics. One attempt to do this is the [OTSO software](https://github.com/NLarsen15/OTSO), which is also designed to be open-source and community oriented. We hope that in the future, AniMAIRE could be integrated with OTSO.
 
 ## Usage
 
-After installation, to import the toolkit into a particular Python script, run 
-```
+After installation, to import the toolkit into a particular Python script, run
+
+```python
 from AniMAIRE import AniMAIRE
 ```
+
 All of the main useful functions are contained within this `AniMAIRE` module, and all other modules contained in this toolkit are primarily intended to be accessed internally (although don't let that stop you from using or editing them for your own purposes if you wish).
 
 The rest of the README file describes how to run AniMAIRE to produce dose rates for different input parameters. You can also look at and run the examples present in the `AniMAIRE_examples.ipynb` notebook, and the advanced examples in the `notebooks_and_data_and_figures_for_paper/GLE71_plots_for_paper.ipynb` notebook to learn and see in practice how AniMAIRE can be used.
@@ -96,7 +100,7 @@ The rest of the README file describes how to run AniMAIRE to produce dose rates 
 
 To test that AniMAIRE works, you can run:
 
-```
+```python
 from AniMAIRE import AniMAIRE
 import datetime as dt
 
@@ -110,7 +114,7 @@ test_isotropic_dose_rates = AniMAIRE.run_from_spectra(
 
 in Python. This should produce some dose rates as output to `test_isotropic_dose_rates` in the format (the meaning of each column is explained later on in this README, under the "Simple isotropic runs and plotting" heading):
 
-```
+```text
     latitude  longitude  altitude (km)      edose      adose      dosee       tn1       tn2       tn3           SEU           SEL
 0       65.0       25.0         0.0000   0.010434   0.012526   0.010010  0.004431  0.002726  0.001826  2.725682e-16  2.725682e-11
 1       65.0       25.0         3.0480   0.101553   0.117294   0.085010  0.051717  0.033506  0.022912  3.350616e-15  3.350616e-10
@@ -134,7 +138,7 @@ in Python. This should produce some dose rates as output to `test_isotropic_dose
 
 The primary function for performing a run to calculate dose rates in `AniMAIRE` is the `run_from_spectra` function, which has the format:
 
-```
+```python
 def run_from_spectra(
         proton_rigidity_spectrum=None,
         alpha_rigidity_spectrum=None,
@@ -163,7 +167,7 @@ Note that while this function can optionally take an alpha particle spectrum as 
 
 Several types of runs can be performed with AniMAIRE; for instance, only vertical asymptotic directions are used to calculate dose rates by default. You can optionally set `use_default_9_zeniths_azimuths` to `True` to use the mean of nine different asymptotic directions to calculate dose rates, as was done by [Cramp et al. (1997)](https://doi.org/10.1029/97JA01947), to calculate dose rates during particularly complex events (note that this means calculations will take approximately nine times longer). You can also manually set your own choice of asymptotic directions for taking the average using the `array_of_zeniths_and_azimuths` variable.
 
-`AniMAIRE` performs runs of the MAGNETOCOSMICS as part of dose rate calculations (using the [AsympDirsCalculator](https://github.com/ssc-maire/AsymptoticDirectionsCalculator) package), and these currently take up by far the majority of `AniMAIRE` runtime - on the order of over half an hour on the developer's computer versus less than 6 minutes for the rest of the program. Therefore if the `cache_magnetocosmics_run` argument is set to `True`, which it is by default, `AniMAIRE` will cache the results of MAGNETOCOSMICS simulations in the directory that `AniMAIRE` is run from in the generated `cachedMagnetocosmicsRunData` and `cacheAsymptoticDirectionOutputs` directories. This significantly speeds up any tasks where users wish to investigate a constant `Kp_index` and `date_and_time`, but wish to vary the spectrum and pitch angle distribution and investigate how dose rates are impacted, as magnetocosmics runs are only performed once. 
+`AniMAIRE` performs runs of the MAGNETOCOSMICS as part of dose rate calculations (using the [AsympDirsCalculator](https://github.com/ssc-maire/AsymptoticDirectionsCalculator) package), and these currently take up by far the majority of `AniMAIRE` runtime - on the order of over half an hour on the developer's computer versus less than 6 minutes for the rest of the program. Therefore if the `cache_magnetocosmics_run` argument is set to `True`, which it is by default, `AniMAIRE` will cache the results of MAGNETOCOSMICS simulations in the directory that `AniMAIRE` is run from in the generated `cachedMagnetocosmicsRunData` and `cacheAsymptoticDirectionOutputs` directories. This significantly speeds up any tasks where users wish to investigate a constant `Kp_index` and `date_and_time`, but wish to vary the spectrum and pitch angle distribution and investigate how dose rates are impacted, as magnetocosmics runs are only performed once.
 
 You can pass settings and variables to `AsympDirsCalculator` through adding additional keyword arguments to `run_from_spectra` with the same names as the arguments given on the [AsympDirsCalculator Github page](https://github.com/ssc-maire/AsymptoticDirectionsCalculator). These settings and variable get assigned to the `**mag_cos_kwargs` object, and passed to `AsympDirsCalculator` by `AniMAIRE`.
 
@@ -171,7 +175,7 @@ You can pass settings and variables to `AsympDirsCalculator` through adding addi
 
 A basic run of the `run_from_spectra` function might look like this:
 
-```
+```python
 from AniMAIRE import AniMAIRE
 import datetime as dt
 
@@ -184,19 +188,19 @@ test_isotropic_dose_rates = AniMAIRE.run_from_spectra(
 
 in this example, the proton rigidity spectrum is set to be a power law with a normalisation factor of 2.56 cm-2 s-1 sr-1 (GV/n)-1, and a spectral index of 3.41, using the commonly used `lambda` approach to create a function within a single line. Kp index is set to be 3, and the date and time to simulate are set to be 13th of December 2006, 03:00. This function will likely take at least several minutes to run, depending on the speed of the machine and number of cores, and should output a Pandas DataFrame to `test_isotropic_dose_rates`, giving:
 
-```
-	latitude	longitude	altitude (km)	edose	adose	dosee	tn1	tn2	tn3	SEU	SEL
-0	-90.0	0.0	0.0000	0.010442	0.012540	0.010010	0.004437	0.002729	0.001828	2.729229e-16	2.729229e-11
-1	-90.0	0.0	3.0480	0.101786	0.117658	0.085755	0.051895	0.033617	0.022979	3.361684e-15	3.361684e-10
-2	-90.0	0.0	6.0960	0.672702	0.742332	0.457695	0.326731	0.211853	0.145046	2.118530e-14	2.118530e-09
-3	-90.0	0.0	7.6200	1.442377	1.541670	0.975436	0.665785	0.431261	0.295516	4.312608e-14	4.312608e-09
-4	-90.0	0.0	8.5344	2.165860	2.249419	1.426324	0.964791	0.623291	0.426927	6.232913e-14	6.232913e-09
-...	...	...	...	...	...	...	...	...	...	...	...
-42619	90.0	355.0	14.9352	16.953199	14.033322	9.762795	5.138425	3.234975	2.164808	3.234975e-13	3.234975e-08
-42620	90.0	355.0	15.8496	21.327714	16.796347	11.858681	5.949880	3.711156	2.463976	3.711156e-13	3.711156e-08
-42621	90.0	355.0	16.7640	26.122787	19.802434	14.318360	6.759204	4.182604	2.757482	4.182604e-13	4.182604e-08
-42622	90.0	355.0	17.6784	31.856083	23.278901	17.431863	7.562120	4.638132	3.029771	4.638132e-13	4.638132e-08
-42623	90.0	355.0	18.5928	38.265701	26.680896	20.232603	8.340509	5.067928	3.275415	5.067928e-13	5.067928e-08
+```text
+ latitude longitude altitude (km) edose adose dosee tn1 tn2 tn3 SEU SEL
+0 -90.0 0.0 0.0000 0.010442 0.012540 0.010010 0.004437 0.002729 0.001828 2.729229e-16 2.729229e-11
+1 -90.0 0.0 3.0480 0.101786 0.117658 0.085755 0.051895 0.033617 0.022979 3.361684e-15 3.361684e-10
+2 -90.0 0.0 6.0960 0.672702 0.742332 0.457695 0.326731 0.211853 0.145046 2.118530e-14 2.118530e-09
+3 -90.0 0.0 7.6200 1.442377 1.541670 0.975436 0.665785 0.431261 0.295516 4.312608e-14 4.312608e-09
+4 -90.0 0.0 8.5344 2.165860 2.249419 1.426324 0.964791 0.623291 0.426927 6.232913e-14 6.232913e-09
+... ... ... ... ... ... ... ... ... ... ... ...
+42619 90.0 355.0 14.9352 16.953199 14.033322 9.762795 5.138425 3.234975 2.164808 3.234975e-13 3.234975e-08
+42620 90.0 355.0 15.8496 21.327714 16.796347 11.858681 5.949880 3.711156 2.463976 3.711156e-13 3.711156e-08
+42621 90.0 355.0 16.7640 26.122787 19.802434 14.318360 6.759204 4.182604 2.757482 4.182604e-13 4.182604e-08
+42622 90.0 355.0 17.6784 31.856083 23.278901 17.431863 7.562120 4.638132 3.029771 4.638132e-13 4.638132e-08
+42623 90.0 355.0 18.5928 38.265701 26.680896 20.232603 8.340509 5.067928 3.275415 5.067928e-13 5.067928e-08
 ```
 
 when `test_isotropic_dose_rates` is printed.
@@ -214,31 +218,36 @@ The outputted dose rate (or flux) labels represent the following dose rate/flux 
 |SEU| single event upset rate for an SRAM device in upsets/second/bit |
 |SEL| single event latch-up rate for an SRAM device in latch-ups/second/device |
 
-These dose rates are produced by default at every latitude and longitude corresponding to 5 by 5 degree intervals across Earth's surface, and for altitudes of 0 kilofeet, 10 kilofeet, 20 kilofeet and between 25 kilofeet and 61 kilofeet at intervals of 3 kilofeet. This can be altered using the `altitudes_in_kft`, `altitudes_in_km` and `array_of_lats_and_longs`. 
+These dose rates are produced by default at every latitude and longitude corresponding to 5 by 5 degree intervals across Earth's surface, and for altitudes of 0 kilofeet, 10 kilofeet, 20 kilofeet and between 25 kilofeet and 61 kilofeet at intervals of 3 kilofeet. This can be altered using the `altitudes_in_kft`, `altitudes_in_km` and `array_of_lats_and_longs`.
 
-Any particular altitudes the user wants to use can be supplied to `altitudes_in_kft` or `altitudes_in_km` as a `list` or numpy array. 
+Any particular altitudes the user wants to use can be supplied to `altitudes_in_kft` or `altitudes_in_km` as a `list` or numpy array.
 
 If you want to perform calculations only at a specific set of latitudes and longitudes you should use the `array_of_lats_and_longs` argument, supplying it as a 2 dimensional `list` or numpy array, where the first column refers to latitudes and the second column refers to longitudes. All longitudes in this case should be specified in terms of longitude east (i.e. 0.00 degrees - 359.99 degrees). **Using the `array_of_lats_and_longs` argument significantly speeds up the running of `AniMAIRE` if you're only interested in a small number of coordinates, so its use is highly recommended in those situations.**
 
 There are many ways you could plot this data. Several example functions,`plot_dose_map` and `create_single_dose_map_plotly`, have been supplied in `AniMAIRE` that uses matplotlib or plotly to plot the dose rates across Earth (i.e. as a function of latitude and longitude) at a given altitude. Both of these functions are available in the `dose_plotting` submodule supplied with AniMAIRE. Their specifications are the following:
-```
+
+```python
 def plot_dose_map(map_to_plot,
                   plot_title=None,
                   plot_contours=True,
                   levels=3,
                     **kwargs)
 ```
-for matplotlib plots, where map_to_plot is the Pandas DataFrame outputted by a run of `AniMAIRE`, with only one altitude selected. `plot_contours` can be switched on or off to control whether contours are added to the plot, and `levels` can be used to specify to number of contours and/or dose rates for the contours to correspond to. `hue_range` can also be supplied with a 2-value tuple to specify the limits of the colorbar to be plotted with the plot. 
+
+for matplotlib plots, where map_to_plot is the Pandas DataFrame outputted by a run of `AniMAIRE`, with only one altitude selected. `plot_contours` can be switched on or off to control whether contours are added to the plot, and `levels` can be used to specify to number of contours and/or dose rates for the contours to correspond to. `hue_range` can also be supplied with a 2-value tuple to specify the limits of the colorbar to be plotted with the plot.
 
 To generate a plotly plot, you can run
-```
+
+```python
 def create_single_dose_map_plotly(DF_to_use,
                                 selected_altitude_in_km)
 ```
+
 where `DF_to_use` is the Pandas DataFrame outputted by a run of `AniMAIRE` and altitude is one of the altitudes in kilometers supplied to/outputted by the run.
 
-To use the matplotlib function to create a map of the isotropic situation as given as an example above, you could run 
-```
+To use the matplotlib function to create a map of the isotropic situation as given as an example above, you could run
+
+```python
 from AniMAIRE import dose_plotting
 import matplotlib.pyplot as plt
 
@@ -261,24 +270,25 @@ To run an anisotropic spectrum, differential pitch angle distributions must be s
 
 `reference_pitch_angle_latitude` and `reference_pitch_angle_longitude` are the reference latitude and longitude in GEO coordinates representing a pitch angle of 0 in the supplied pitch angle distribution used. `AniMAIRE` currently makes the assumption that incoming particle distributions are cylindrically symmetric about this reference direction, and therefore that only the pitch angle with respect to this latitude and longitude are required to calculate dose rates anisotropically across Earth. Incoming solar particle events are frequently oriented near to the direction of the Interplanetary Magnetic Field (IMF), so you could specify pitch angles relative to the IMF here, and use the latitude and longitude of the IMF as the reference latitude and longitude.
 
-The pitch angle distributions and rigidity spectrum must be specified in units normalised such that the product of the pitch angle distribution and rigidity spectrum multiplied together is in units of **cm-2 s-1 sr-1 (GV/n)-1**. 
+The pitch angle distributions and rigidity spectrum must be specified in units normalised such that the product of the pitch angle distribution and rigidity spectrum multiplied together is in units of **cm-2 s-1 sr-1 (GV/n)-1**.
 
 The pitch angle distributions can be specified using the Python `lambda` as with the rigidity spectra, but with 2 dimensions rather than 1. For example, to specify a Gaussian pitch angle distribution you could use:
 
-```
+```python
 import numpy as np
 
 sigma = np.sqrt(0.19)
 
 test_pitch_angle_dist_function = lambda pitch_angle,rigidity:np.exp(-(pitch_angle**2)/(sigma**2))
 ```
-where `sigma` here has arbitrarily been chosen to be the square root of 0.19 for example purposes. 
+
+where `sigma` here has arbitrarily been chosen to be the square root of 0.19 for example purposes.
 
 here `pitch_angle_dist_function` would be a viable input as a pitch angle distribution to `run_from_spectra`. While the function itself does not depend on `rigidity`, `rigidity` is specified as the second argument of the function nonetheless, as required for calculations to work.
 
 An example of using this might be:
 
-```
+```python
 import numpy as np
 from AniMAIRE import AniMAIRE
 import datetime as dt
@@ -298,26 +308,28 @@ test_anisotropic_dose_rates = AniMAIRE.run_from_spectra(
 )
 ```
 
-when run this should output a Pandas DataFrame to `test_anisotropic_dose_rates` with the same general output format as given in the previously described isotropic dose rates case. 
+when run this should output a Pandas DataFrame to `test_anisotropic_dose_rates` with the same general output format as given in the previously described isotropic dose rates case.
 
 In this case printing `test_anisotropic_dose_rates` should output:
-```
-	latitude	longitude	altitude (km)	edose	adose	dosee	tn1	tn2	tn3	SEU	SEL
-0	-90.0	0.0	0.0000	1.976895e-07	2.027961e-07	3.222401e-07	1.286575e-08	7.877480e-09	5.401425e-09	7.877480e-22	7.877480e-17
-1	-90.0	0.0	3.0480	4.838923e-07	4.869626e-07	7.032983e-07	7.429541e-08	4.866265e-08	3.410940e-08	4.866265e-21	4.866265e-16
-2	-90.0	0.0	6.0960	1.453834e-06	1.411544e-06	2.045308e-06	2.472576e-07	1.611648e-07	1.136527e-07	1.611648e-20	1.611648e-15
-3	-90.0	0.0	7.6200	2.352658e-06	2.382057e-06	3.304989e-06	3.720997e-07	2.420436e-07	1.708843e-07	2.420436e-20	2.420436e-15
-4	-90.0	0.0	8.5344	2.970462e-06	2.791970e-06	4.201789e-06	4.473736e-07	2.919136e-07	2.063902e-07	2.919136e-20	2.919136e-15
-...	...	...	...	...	...	...	...	...	...	...	...
-42619	90.0	355.0	14.9352	1.062397e-06	7.975138e-07	5.902218e-07	2.766678e-07	1.764588e-07	1.216189e-07	1.764588e-20	1.764588e-15
-42620	90.0	355.0	15.8496	1.289216e-06	9.183397e-07	6.964574e-07	3.063998e-07	1.945207e-07	1.338582e-07	1.945207e-20	1.945207e-15
-42621	90.0	355.0	16.7640	1.525359e-06	1.040969e-06	8.062018e-07	3.339381e-07	2.112220e-07	1.452375e-07	2.112220e-20	2.112220e-15
-42622	90.0	355.0	17.6784	1.777447e-06	1.163693e-06	9.297615e-07	3.568426e-07	2.248452e-07	1.543556e-07	2.248452e-20	2.248452e-15
-42623	90.0	355.0	18.5928	2.036052e-06	1.275021e-06	1.040287e-06	3.755276e-07	2.357292e-07	1.614028e-07	2.357292e-20	2.357292e-15
+
+```text
+ latitude longitude altitude (km) edose adose dosee tn1 tn2 tn3 SEU SEL
+0 -90.0 0.0 0.0000 1.976895e-07 2.027961e-07 3.222401e-07 1.286575e-08 7.877480e-09 5.401425e-09 7.877480e-22 7.877480e-17
+1 -90.0 0.0 3.0480 4.838923e-07 4.869626e-07 7.032983e-07 7.429541e-08 4.866265e-08 3.410940e-08 4.866265e-21 4.866265e-16
+2 -90.0 0.0 6.0960 1.453834e-06 1.411544e-06 2.045308e-06 2.472576e-07 1.611648e-07 1.136527e-07 1.611648e-20 1.611648e-15
+3 -90.0 0.0 7.6200 2.352658e-06 2.382057e-06 3.304989e-06 3.720997e-07 2.420436e-07 1.708843e-07 2.420436e-20 2.420436e-15
+4 -90.0 0.0 8.5344 2.970462e-06 2.791970e-06 4.201789e-06 4.473736e-07 2.919136e-07 2.063902e-07 2.919136e-20 2.919136e-15
+... ... ... ... ... ... ... ... ... ... ... ...
+42619 90.0 355.0 14.9352 1.062397e-06 7.975138e-07 5.902218e-07 2.766678e-07 1.764588e-07 1.216189e-07 1.764588e-20 1.764588e-15
+42620 90.0 355.0 15.8496 1.289216e-06 9.183397e-07 6.964574e-07 3.063998e-07 1.945207e-07 1.338582e-07 1.945207e-20 1.945207e-15
+42621 90.0 355.0 16.7640 1.525359e-06 1.040969e-06 8.062018e-07 3.339381e-07 2.112220e-07 1.452375e-07 2.112220e-20 2.112220e-15
+42622 90.0 355.0 17.6784 1.777447e-06 1.163693e-06 9.297615e-07 3.568426e-07 2.248452e-07 1.543556e-07 2.248452e-20 2.248452e-15
+42623 90.0 355.0 18.5928 2.036052e-06 1.275021e-06 1.040287e-06 3.755276e-07 2.357292e-07 1.614028e-07 2.357292e-20 2.357292e-15
 ```
 
 which will produce the following plot when
-```
+
+```python
 from AniMAIRE import dose_plotting
 import matplotlib.pyplot as plt
 
@@ -326,18 +338,20 @@ dose_plotting.plot_dose_map(test_anisotropic_dose_rates.query("`altitude (km)` =
 
 plt.show()
 ```
+
 is run, as was described previously in this README for isotropic plotting:
 
 ![anisotropic_test_plot](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/Anisotropic_40kft_example.svg)
 
-
 you can also produce similar plotly plots if you prefer plotly to matplotlib using:
-```
+
+```python
 from AniMAIRE import dose_plotting
 
 anisotropic_dose_rate_map = dose_plotting.create_single_dose_map_plotly(test_anisotropic_dose_rates,
-                            			      selected_altitude_in_km = 12.1920)
+                                     selected_altitude_in_km = 12.1920)
 ```
+
 which generates the following plot:
 
 ![anisotropic_test_plot](https://user-images.githubusercontent.com/16866485/223751057-5d0cff98-cf9e-4654-b71f-d1ae55c75602.png)
@@ -348,19 +362,19 @@ In addition to the quite general `run_from_spectra` function, `AniMAIRE` current
 
 The `run_from_DLR_cosmic_ray_power_law` function allows users to run full atmospheric dose rate calculations (for cosmic ray only/'quiet' time periods only) from just a date and time, or alternatively from just a single OULU count rate, or just a value of 'W parameter', as well as Kp index. This function utilises the [CosRayModifiedISO package](https://github.com/ssc-maire/CosRayModifiedISO) to determine the spectra due to protons and alpha particles during cosmic ray only time periods, and then runs `run_from_spectra` using both of those spectra under isotropic conditions. The specifications of `run_from_DLR_cosmic_ray_power_law` are:
 
-```
+```python
 def run_from_DLR_cosmic_ray_model(OULU_count_rate_in_seconds=None,
                                       W_parameter=None,
                                       Kp_index=None,
-				      date_and_time=None,
+          date_and_time=None,
                                       **kwargs)
 ```
 
-`**kwargs` here can be used to supply any arguments you wish to `run_from_spectra` as specified previously, such as the list of altitudes and list of coordinates to perform calculations for. Details on what `OULU_count_rate_in_seconds` and `W_parameter` mean can be found at https://github.com/ssc-maire/CosRayModifiedISO . If either `OULU_count_rate_in_seconds` or `W_parameter` are used, only one of them should be specified. Otherwise, `AniMAIRE` will determined their values using the `date_and_time` parameter supplied.
+`**kwargs` here can be used to supply any arguments you wish to `run_from_spectra` as specified previously, such as the list of altitudes and list of coordinates to perform calculations for. Details on what `OULU_count_rate_in_seconds` and `W_parameter` mean can be found at <https://github.com/ssc-maire/CosRayModifiedISO> . If either `OULU_count_rate_in_seconds` or `W_parameter` are used, only one of them should be specified. Otherwise, `AniMAIRE` will determined their values using the `date_and_time` parameter supplied.
 
 In addition to running from the DLR-ISO isotropic cosmic ray model, you can also run `AniMAIRE` from a combined power law rigidity spectrum and Gaussian pitch angle distribution. This can be done using the `run_from_power_law_gaussian_distribution` function:
 
-```
+```python
 def run_from_power_law_gaussian_distribution(J0, gamma, deltaGamma, sigma, 
                                              reference_pitch_angle_latitude, reference_pitch_angle_longitude, 
                                              Kp_index,date_and_time,
@@ -368,9 +382,3 @@ def run_from_power_law_gaussian_distribution(J0, gamma, deltaGamma, sigma,
 ```
 
 Here `J0`, `gamma`, `deltaGamma`, `sigma`, `reference_pitch_angle_latitude`, `reference_pitch_angle_longitude` are all defined as specified in the format of papers like [Mishev, A., Usoskin, I. Analysis of the Ground-Level Enhancements on 14 July 2000 and 13 December 2006 Using Neutron Monitor Data. Sol Phys 291, 1225–1239 (2016). https://doi.org/10.1007/s11207-016-0877-2](https://link.springer.com/article/10.1007/s11207-016-0877-2).
-
-
-
-
-
-
