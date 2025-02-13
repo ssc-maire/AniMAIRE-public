@@ -19,7 +19,7 @@ def run_from_spectra(
         altitudes_in_kft: Optional[List[float]] = None,
         altitudes_in_km: Optional[List[float]] = None,
         Kp_index: Optional[int] = None,
-        date_and_time: dt.datetime = dt.datetime.utcnow(),
+        date_and_time: Optional[dt.datetime] = None,
         array_of_lats_and_longs: np.ndarray = default_array_of_lats_and_longs,
         cache_magnetocosmics_run: bool = True,
         generate_NM_count_rates: bool = False,
@@ -66,7 +66,21 @@ def run_from_spectra(
     - output_dose_rate_DF: DataFrame
         DataFrame containing the calculated dose rates.
     """
-    
+
+    # New check: if an asymp_dir_file is provided, do not allow other asymptotic direction parameters.
+    if asymp_dir_file is not None:
+        if (use_default_9_zeniths_azimuths or 
+            any(key in mag_cos_kwargs for key in ["array_of_zeniths_and_azimuths"]) or 
+            Kp_index is not None or 
+            array_of_lats_and_longs is not default_array_of_lats_and_longs or
+            date_and_time is not None or
+            cache_magnetocosmics_run != True or
+            bool(mag_cos_kwargs)):
+            raise ValueError("Error: When asymp_dir_file is provided, no additional asymptotic direction parameters, Kp_index, array_of_lats_and_longs, date_and_time, cache_magnetocosmics_run, or mag_cos_kwargs should be supplied.")
+
+    if date_and_time is None:
+        date_and_time = dt.datetime.utcnow()
+
     if Kp_index is None:
         Kp_index = get_kp_index(date_and_time)
     
@@ -94,7 +108,7 @@ def run_from_spectra(
                                           generate_NM_count_rates=generate_NM_count_rates,
                                           asymp_dir_file=asymp_dir_file)
     
-    output_dose_rate_DF = engine_to_run.getAsymptoticDirsAndRun(use_default_9_zeniths_azimuths,**mag_cos_kwargs)
+    output_dose_rate_DF = engine_to_run.getAsymptoticDirsAndRun(use_default_9_zeniths_azimuths, **mag_cos_kwargs)
 
     print("Success!")
 
@@ -103,7 +117,7 @@ def run_from_spectra(
 def run_from_power_law_gaussian_distribution(
         J0: float, gamma: float, deltaGamma: float, sigma: float, 
         reference_pitch_angle_latitude: float, reference_pitch_angle_longitude: float, 
-        Kp_index: int, date_and_time: dt.datetime,
+        Kp_index: Optional[int] = None, date_and_time: Optional[dt.datetime] = None,
         use_split_spectrum: bool = False,
         asymp_dir_file: Optional[str] = None,
         **kwargs
@@ -153,7 +167,7 @@ def run_from_double_power_law_gaussian_distribution(
         J0: float, gamma: float, deltaGamma: float, sigma_1: float, sigma_2: float,
         B: float, alpha_prime: float,
         reference_pitch_angle_latitude: float, reference_pitch_angle_longitude: float, 
-        Kp_index: int, date_and_time: dt.datetime,
+        Kp_index: Optional[int] = None, date_and_time: Optional[dt.datetime] = None,
         use_split_spectrum: bool = False,
         asymp_dir_file: Optional[str] = None,
         **kwargs
@@ -208,7 +222,7 @@ def run_from_double_power_law_gaussian_distribution(
 def run_from_power_law_Beeck_gaussian_distribution(
         J0: float, gamma: float, deltaGamma: float, A: float, B: float, 
         reference_pitch_angle_latitude: float, reference_pitch_angle_longitude: float, 
-        Kp_index: int, date_and_time: dt.datetime,
+        Kp_index: Optional[int] = None, date_and_time: Optional[dt.datetime] = None,
         use_split_spectrum: bool = False,
         asymp_dir_file: Optional[str] = None,
         **kwargs
