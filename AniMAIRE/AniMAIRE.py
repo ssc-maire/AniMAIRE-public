@@ -24,6 +24,7 @@ def run_from_spectra(
         cache_magnetocosmics_run: bool = True,
         generate_NM_count_rates: bool = False,
         use_default_9_zeniths_azimuths: bool = False,
+        asymp_dir_file: Optional[str] = None,
         **mag_cos_kwargs,
 ) -> pd.DataFrame:
     """
@@ -90,7 +91,8 @@ def run_from_spectra(
                                           reference_longitude=reference_pitch_angle_longitude,
                                           array_of_lats_and_longs=array_of_lats_and_longs,
                                           cache_magnetocosmics_runs=cache_magnetocosmics_run,
-                                          generate_NM_count_rates=generate_NM_count_rates)
+                                          generate_NM_count_rates=generate_NM_count_rates,
+                                          asymp_dir_file=asymp_dir_file)
     
     output_dose_rate_DF = engine_to_run.getAsymptoticDirsAndRun(use_default_9_zeniths_azimuths,**mag_cos_kwargs)
 
@@ -103,6 +105,7 @@ def run_from_power_law_gaussian_distribution(
         reference_pitch_angle_latitude: float, reference_pitch_angle_longitude: float, 
         Kp_index: int, date_and_time: dt.datetime,
         use_split_spectrum: bool = False,
+        asymp_dir_file: Optional[str] = None,
         **kwargs
 ) -> pd.DataFrame:
     """
@@ -142,6 +145,7 @@ def run_from_power_law_gaussian_distribution(
         reference_pitch_angle_longitude=reference_pitch_angle_longitude,
         proton_pitch_angle_distribution=gaussianPitchAngleDistribution(normFactor=1,sigma=sigma),
         Kp_index=Kp_index,date_and_time=date_and_time,
+        asymp_dir_file=asymp_dir_file,
         **kwargs,
     )
 
@@ -151,6 +155,7 @@ def run_from_double_power_law_gaussian_distribution(
         reference_pitch_angle_latitude: float, reference_pitch_angle_longitude: float, 
         Kp_index: int, date_and_time: dt.datetime,
         use_split_spectrum: bool = False,
+        asymp_dir_file: Optional[str] = None,
         **kwargs
 ) -> pd.DataFrame:
     """
@@ -196,6 +201,7 @@ def run_from_double_power_law_gaussian_distribution(
         reference_pitch_angle_longitude=reference_pitch_angle_longitude,
         proton_pitch_angle_distribution=gaussianPitchAngleDistribution(normFactor=1,sigma=sigma_1) + (B * gaussianPitchAngleDistribution(normFactor=1,sigma=sigma_2,alpha=alpha_prime)),
         Kp_index=Kp_index,date_and_time=date_and_time,
+        asymp_dir_file=asymp_dir_file,
         **kwargs,
     )
 
@@ -204,6 +210,7 @@ def run_from_power_law_Beeck_gaussian_distribution(
         reference_pitch_angle_latitude: float, reference_pitch_angle_longitude: float, 
         Kp_index: int, date_and_time: dt.datetime,
         use_split_spectrum: bool = False,
+        asymp_dir_file: Optional[str] = None,
         **kwargs
 ) -> pd.DataFrame:
     """
@@ -245,6 +252,7 @@ def run_from_power_law_Beeck_gaussian_distribution(
         reference_pitch_angle_longitude=reference_pitch_angle_longitude,
         proton_pitch_angle_distribution=gaussianBeeckPitchAngleDistribution(normFactor=1,A=A,B=B),
         Kp_index=Kp_index,date_and_time=date_and_time,
+        asymp_dir_file=asymp_dir_file,
         **kwargs,
     )
 
@@ -253,6 +261,7 @@ def run_from_DLR_cosmic_ray_model(
         W_parameter: Optional[float] = None,
         Kp_index: Optional[int] = None,
         date_and_time: Optional[dt.datetime] = None,
+        asymp_dir_file: Optional[str] = None,
         **kwargs
 ) -> pd.DataFrame:
     """
@@ -284,6 +293,7 @@ def run_from_DLR_cosmic_ray_model(
         proton_rigidity_spectrum=DLRmodelSpectrum(atomicNumber=1, date_and_time=DLR_model_date_and_time, OULUcountRateInSeconds=OULU_count_rate_in_seconds, W_parameter=W_parameter),
         alpha_rigidity_spectrum=DLRmodelSpectrum(atomicNumber=2, date_and_time=DLR_model_date_and_time, OULUcountRateInSeconds=OULU_count_rate_in_seconds, W_parameter=W_parameter),
         Kp_index=Kp_index,date_and_time=date_and_time,
+        asymp_dir_file=asymp_dir_file,
         **kwargs,
     )
 
