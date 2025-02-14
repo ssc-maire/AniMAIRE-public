@@ -151,7 +151,9 @@ def test_run_from_spectra_two_locations():
                         Kp_index=6,
                         date_and_time=dt.datetime(year=2000,month=7,day=14,hour=10,minute=45,second=0),
                         altitudes_in_km=np.append(np.array(range(0,13)) * 0.3048,11.28),
-                        array_of_lats_and_longs=[[46.2,187.4],[-28.3,-92.7]])
+                        array_of_lats_and_longs=[[46.2,187.4],[-28.3,-92.7]],
+                        #record_full_output=True,
+                        )
     
     assert np.allclose(np.array(result.values.tolist()), np.array(expected_output_doses))
 

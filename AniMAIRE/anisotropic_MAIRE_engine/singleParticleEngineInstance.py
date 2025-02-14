@@ -48,15 +48,19 @@ class singleParticleEngineInstance:
         pitchAngleDistToUse.setInterplanetaryMagFieldDirection(self.IMFlatitude, self.IMFlongitude)
         return pitchAngleDistToUse
 
-    def getAsymptoticDirsAndRun(self) -> pd.DataFrame:
+    def getAsymptoticDirsAndRun(self, use_default_9_zeniths_azimuths: bool = False, record_full_output: bool = False, **kwargs) -> pd.DataFrame:
         """
         Acquire asymptotic directions and run calculations.
+        Parameters:
+          use_default_9_zeniths_azimuths (bool): flag for using default directions (unused here).
+          record_full_output (bool): if True, attach additional output, including asymptotic directions as well as the calculated weighting factors for each asymptotic direction in attrs.
+          **kwargs: additional keyword arguments.
         """
         self.acquireDFofAllAsymptoticDirections()
-        sortedOutputDoseRates = self.runOverSpecifiedAltitudes()
+        sortedOutputDoseRates = self.runOverSpecifiedAltitudes(record_full_output=record_full_output)
         return sortedOutputDoseRates
 
-    def runOverSpecifiedAltitudes(self) -> pd.DataFrame:
+    def runOverSpecifiedAltitudes(self, record_full_output: bool = False, **kwargs) -> pd.DataFrame:
         """
         Run calculations over specified altitudes.
         """
@@ -70,7 +74,8 @@ class singleParticleEngineInstance:
         sortedOutputDoseRates = self.calc_output_dose_flux(df_with_weighting_factors, self.list_of_altitudes_in_km, self.particle_distribution.particle_species.particleName)
         
         df_with_weighting_factors.to_pickle("weighting_factor_DF.pkl")
-        sortedOutputDoseRates.attrs['weighting_factor_input_DF'] = dd.from_pandas(df_with_weighting_factors)
+        if record_full_output:  
+            sortedOutputDoseRates.attrs['weighting_factor_input_DF'] = dd.from_pandas(df_with_weighting_factors)
         
         print("Output dose rates calculated successfully!")
         return sortedOutputDoseRates

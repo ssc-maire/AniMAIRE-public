@@ -71,15 +71,16 @@ class generalEngineInstance:
         self.cache_magnetocosmics_runs = cache_magnetocosmics_runs
         self.generate_NM_count_rates = generate_NM_count_rates
 
-    def getAsymptoticDirsAndRun(self, use_default_9_zeniths_azimuths: bool, **mag_cos_kwargs) -> pd.DataFrame:
+    def getAsymptoticDirsAndRun(self, use_default_9_zeniths_azimuths: bool, record_full_output: bool = False, **mag_cos_kwargs) -> pd.DataFrame:
         """
         Acquire asymptotic directions and run calculations.
 
         Parameters:
         - use_default_9_zeniths_azimuths: bool
             Whether to use default 9 zeniths and azimuths.
-        - **mag_cos_kwargs: additional keyword arguments
-            Additional arguments for Magnetocosmics.
+        - record_full_output: bool, optional
+            Whether to record full output attributes from underlying calculations.
+        - **mag_cos_kwargs: additional keyword arguments for Magnetocosmics.
 
         Returns:
         - pd.DataFrame
@@ -95,7 +96,7 @@ class generalEngineInstance:
                                                                 self.list_of_altitudes_km,
                                                                 self.generate_NM_count_rates)
             
-            doseRateDFforParticleSpecies = singleParticleEngine.runOverSpecifiedAltitudes()
+            doseRateDFforParticleSpecies = singleParticleEngine.runOverSpecifiedAltitudes(record_full_output=record_full_output)
             fullDoseRateList.append(doseRateDFforParticleSpecies)
 
         summedDoseRateDF = fullDoseRateList[0]

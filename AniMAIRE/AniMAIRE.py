@@ -24,6 +24,7 @@ def run_from_spectra(
         cache_magnetocosmics_run: bool = True,
         generate_NM_count_rates: bool = False,
         use_default_9_zeniths_azimuths: bool = False,
+        record_full_output: bool = False,
         **mag_cos_kwargs,
 ) -> pd.DataFrame:
     """
@@ -58,6 +59,8 @@ def run_from_spectra(
         Whether to generate neutron monitor count rates.
     - use_default_9_zeniths_azimuths: bool, optional
         Whether to use the mean of nine different asymptotic directions to calculate dose rates.
+    - record_full_output: bool, optional
+        Whether to record full output attributes.
     - **mag_cos_kwargs: additional keyword arguments
         Additional arguments to pass to AsympDirsCalculator.
 
@@ -92,7 +95,7 @@ def run_from_spectra(
                                           cache_magnetocosmics_runs=cache_magnetocosmics_run,
                                           generate_NM_count_rates=generate_NM_count_rates)
     
-    output_dose_rate_DF = engine_to_run.getAsymptoticDirsAndRun(use_default_9_zeniths_azimuths,**mag_cos_kwargs)
+    output_dose_rate_DF = engine_to_run.getAsymptoticDirsAndRun(use_default_9_zeniths_azimuths, record_full_output=record_full_output, **mag_cos_kwargs)
 
     print("Success!")
 
