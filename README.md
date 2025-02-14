@@ -1,4 +1,4 @@
-![The AniMAIRE logo](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/AniMAIRE_logo.svg)
+![The AniMAIRE logo](https://raw.githubusercontent.com/ssc-maire/AniMAIRE-public/main/AniMAIRE_logo.png)
 
 A Python toolkit for calculating dose rates and aircraft electronics upset rates in Earth's atmosphere based on any incoming proton or alpha particle spectra, with any pitch angle distribution.
 
