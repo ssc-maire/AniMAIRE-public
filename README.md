@@ -32,7 +32,49 @@ in the cloned directory.
 
 Note that there are quite a few sizeable data files within some of the dependencies for this package that get copied during installation (on the order of about several hundred megabytes in total) so installation may take a couple of minutes.
 
-**To use this package you must have a version of magnetocosmics installed, such that magnetocosmics can be run by typing 'magnetocosmics' the terminal, i.e. typing:**
+## Running AniMAIRE with Precomputed Asymptotic Direction Files (Recommended Method if you don't have access to Magnetocosmics)
+
+The recommended way to run AniMAIRE is to use precomputed asymptotic direction files. This approach doesn't require having Magnetocosmics installed on your system.
+
+### Generating Asymptotic Direction Files
+
+You have two options for generating the required asymptotic direction files:
+
+1. **Using OTSO output files (Recommended)**: [OTSO](https://github.com/NLarsen15/OTSO) is an open-source tool specifically designed for calculating asymptotic directions. It's more modern, easier to install, and community-oriented. To generate asymptotic direction files with OTSO:
+   - Install OTSO following the instructions at their repository
+   - Use OTSO to generate CSV files containing asymptotic directions
+   - The files should follow the naming convention: `latitude_longitude.csv` (e.g., `51.5_0.0.csv`)
+   - We currently recommend running OTSO using rigidities from 0.1 GV to 1010 GV, with 200 steps between 0.1 GV and 20 GV, and 60 steps between 20 GV and 1010 GV. Its very possible that other sets of rigidities will work, but this is the configuration we have tested and found to be accurate.
+   
+
+2. **Using Magnetocosmics output files**: If you have Magnetocosmics installed and prefer to feed files from it into AniMAIRE rather than using the internal Magnetocosmics wrappers, you can also used generated asymptotic direction files from it. This requires having Magnetocosmics properly installed and configured on your system, and you can supply the files to AniMAIRE using the same format as with OTSO files.
+
+### Using Precomputed Files
+
+Once you have your asymptotic direction files, you can use them with AniMAIRE like this:
+
+```python
+from AniMAIRE import AniMAIRE
+
+# Run simulation using a precomputed asymptotic directions file
+result = AniMAIRE.run_from_spectra(
+    proton_rigidity_spectrum=lambda x: 2.56*(x**-3.41),
+    asymp_dir_file='path/to/your/51.5_0.0_asymp.csv'
+)
+```
+
+**Important Notes:** 
+- When using `asymp_dir_file`, do not supply additional asymptotic direction parameters such as `Kp_index`, `array_of_lats_and_longs`, `date_and_time`, `cache_magnetocosmics_run`, or any extra keyword arguments intended for Magnetocosmics (i.e. `mag_cos_kwargs`), as these will be ignored. 
+- The asymptotic direction file must be in CSV format with specific column headers. Both OTSO and Magnetocosmics generate compatible files.
+- You can also provide a list of files to process multiple locations: `asymp_dir_file=['51.5_0.0_asymp.csv', '52.0_0.0_asymp.csv']`
+
+Using precomputed asymptotic directions can greatly reduce run times and is particularly useful for repeated analyses or when integrating external asymptotic data.
+
+## Running AniMAIRE with Magnetocosmics (Alternative Method)
+
+If you prefer to run AniMAIRE with direct Magnetocosmics integration, you'll need to have Magnetocosmics installed on your system. **Note that this method is significantly slower than using precomputed files.**
+
+**To use this package with Magnetocosmics you must have it installed, such that magnetocosmics can be run by typing 'magnetocosmics' in the terminal, i.e. typing:**
 
 ```bash
 magnetocosmics
@@ -195,12 +237,6 @@ in this example, the proton rigidity spectrum is set to be a power law with a no
 2 -90.0 0.0 6.0960 0.672702 0.742332 0.457695 0.326731 0.211853 0.145046 2.118530e-14 2.118530e-09
 3 -90.0 0.0 7.6200 1.442377 1.541670 0.975436 0.665785 0.431261 0.295516 4.312608e-14 4.312608e-09
 4 -90.0 0.0 8.5344 2.165860 2.249419 1.426324 0.964791 0.623291 0.426927 6.232913e-14 6.232913e-09
-... ... ... ... ... ... ... ... ... ... ... ...
-42619 90.0 355.0 14.9352 16.953199 14.033322 9.762795 5.138425 3.234975 2.164808 3.234975e-13 3.234975e-08
-42620 90.0 355.0 15.8496 21.327714 16.796347 11.858681 5.949880 3.711156 2.463976 3.711156e-13 3.711156e-08
-42621 90.0 355.0 16.7640 26.122787 19.802434 14.318360 6.759204 4.182604 2.757482 4.182604e-13 4.182604e-08
-42622 90.0 355.0 17.6784 31.856083 23.278901 17.431863 7.562120 4.638132 3.029771 4.638132e-13 4.638132e-08
-42623 90.0 355.0 18.5928 38.265701 26.680896 20.232603 8.340509 5.067928 3.275415 5.067928e-13 5.067928e-08
 ```
 
 when `test_isotropic_dose_rates` is printed.
