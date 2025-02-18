@@ -59,14 +59,14 @@ from AniMAIRE import AniMAIRE
 # Run simulation using a precomputed asymptotic directions file
 result = AniMAIRE.run_from_spectra(
     proton_rigidity_spectrum=lambda x: 2.56*(x**-3.41),
-    asymp_dir_file='path/to/your/51.5_0.0_asymp.csv'
+    asymp_dir_file='path/to/your/51.5_0.0.csv'
 )
 ```
 
 **Important Notes:** 
 - When using `asymp_dir_file`, do not supply additional asymptotic direction parameters such as `Kp_index`, `array_of_lats_and_longs`, `date_and_time`, `cache_magnetocosmics_run`, or any extra keyword arguments intended for Magnetocosmics (i.e. `mag_cos_kwargs`), as these will be ignored. 
 - The asymptotic direction file must be in CSV format with specific column headers. Both OTSO and Magnetocosmics generate compatible files.
-- You can also provide a list of files to process multiple locations: `asymp_dir_file=['51.5_0.0_asymp.csv', '52.0_0.0_asymp.csv']`
+- You can also provide a list of files to process multiple locations: `asymp_dir_file=['51.5_0.0.csv', '52.0_0.0.csv']`
 
 Using precomputed asymptotic directions can greatly reduce run times and is particularly useful for repeated analyses or when integrating external asymptotic data.
 
@@ -176,7 +176,7 @@ in Python. This should produce some dose rates as output to `test_isotropic_dose
 15      65.0       25.0        18.5928  37.203113  24.734609  19.638953  7.495669  4.637948  3.081391  4.637948e-13  4.637948e-08
 ```
 
-## Calculating dose rates at any location in Earth's atmosphere
+### Calculating dose rates at any location in Earth's atmosphere
 
 The primary function for performing a run to calculate dose rates in `AniMAIRE` is the `run_from_spectra` function, which has the format:
 
