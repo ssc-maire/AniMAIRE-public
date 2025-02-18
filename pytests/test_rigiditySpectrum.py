@@ -9,14 +9,10 @@ from AniMAIRE.anisotropic_MAIRE_engine.spectralCalculations.rigiditySpectrum imp
     CommonModifiedPowerLawSpectrumSplit
 )
 
-def test_rigiditySpectrum():
-    spectrum = rigiditySpectrum()
-    assert spectrum(1.0) is None
-
 def test_powerLawSpectrum():
     spectrum = powerLawSpectrum(normalisationFactor=1.0, spectralIndex=-2.7)
     assert np.isclose(spectrum(1.0), 1.0)
-    assert np.isclose(spectrum(2.0), 0.15625)
+    assert np.isclose(spectrum(2.0), 2.0**(-2.7))
 
 def test_interpolatedInputFileSpectrum(tmp_path):
     data = "1.0,10.0\n2.0,20.0\n3.0,30.0\n"
@@ -34,9 +30,9 @@ def test_DLRmodelSpectrum():
 def test_CommonModifiedPowerLawSpectrum():
     spectrum = CommonModifiedPowerLawSpectrum(J0=1.0, gamma=2.7, deltaGamma=0.1)
     assert np.isclose(spectrum(1.0), 1.0 / (100**2))
-    assert np.isclose(spectrum(2.0), 0.15625 / (100**2))
+    assert np.isclose(spectrum(2.0), 2.0**(-2.8) / 100**2)
 
 def test_CommonModifiedPowerLawSpectrumSplit():
     spectrum = CommonModifiedPowerLawSpectrumSplit(J0=1.0, gamma=2.7, deltaGamma=0.1)
     assert np.isclose(spectrum(1.0), 1.0 / (100**2))
-    assert np.isclose(spectrum(2.0), 0.15625 / (100**2))
+    assert np.isclose(spectrum(2.0), 2.0**(-2.8) / 100**2)

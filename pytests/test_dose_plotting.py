@@ -6,9 +6,13 @@ from AniMAIRE.dose_plotting import plot_dose_map_contours, create_single_dose_ma
 @pytest.fixture
 def sample_dose_map():
     data = {
+        "longitude": np.linspace(0, 360, 10),
         "longitudeTranslated": np.linspace(-180, 180, 10),
         "latitude": np.linspace(-90, 90, 10),
-        "edose": np.random.rand(10)
+        "altitude (km)": np.full(10, 0.0),
+        "edose": np.random.rand(10),
+        "SEU": np.random.rand(10),
+        "SEL": np.random.rand(10),
     }
     return pd.DataFrame(data)
 

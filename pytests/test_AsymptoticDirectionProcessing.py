@@ -49,7 +49,15 @@ def test_generate_asymp_dir_DF(sample_dataframe):
     assert "angleBetweenIMFinRadians" in result.columns
 
 def test_acquireWeightingFactors(sample_dataframe, sample_particle_distribution):
-    result = acquireWeightingFactors(sample_dataframe, sample_particle_distribution)
+
+    IMFlatitude = 0.0
+    IMFlongitude = 0.0
+    datetime_to_run_across_UTC = dt.datetime.utcnow()
+    cache = False
+
+    initial_result = generate_asymp_dir_DF(sample_dataframe, IMFlatitude, IMFlongitude, datetime_to_run_across_UTC, cache)
+
+    result = acquireWeightingFactors(initial_result, sample_particle_distribution)
     assert "PitchAngleWeightingFactor" in result.columns
     assert "RigidityWeightingFactor" in result.columns
     assert "fullRigidityPitchWeightingFactor" in result.columns

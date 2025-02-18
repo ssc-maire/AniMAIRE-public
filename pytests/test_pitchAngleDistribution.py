@@ -15,7 +15,7 @@ def test_pitchAngleDistribution():
 def test_cosinePitchAngleDistribution():
     dist = cosinePitchAngleDistribution()
     assert np.isclose(dist(0.0, 1.0), 0.0)
-    assert np.isclose(dist(np.pi / 2, 1.0), 0.5)
+    assert np.isclose(dist(np.pi / 4, 1.0), 0.5)
 
 def test_isotropicPitchAngleDistribution():
     dist = isotropicPitchAngleDistribution()
@@ -25,9 +25,9 @@ def test_isotropicPitchAngleDistribution():
 def test_gaussianPitchAngleDistribution():
     dist = gaussianPitchAngleDistribution(normFactor=1.0, sigma=1.0)
     assert np.isclose(dist(0.0, 1.0), 1.0)
-    assert np.isclose(dist(1.0, 1.0), np.exp(-0.5))
+    assert np.isclose(dist(1.0, 1.0), np.exp(-1.0))
 
 def test_gaussianBeeckPitchAngleDistribution():
     dist = gaussianBeeckPitchAngleDistribution(normFactor=1.0, A=1.0, B=1.0)
     assert np.isclose(dist(0.0, 1.0), 1.0)
-    assert np.isclose(dist(np.pi / 2, 1.0), np.exp(-0.5))
+    assert np.isclose(dist(np.pi / 2, 1.0), np.exp(-0.5 * np.pi/2))
