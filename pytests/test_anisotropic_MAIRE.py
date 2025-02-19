@@ -6,6 +6,9 @@ from AniMAIRE import AniMAIRE
 import os
 import pytest
 
+
+IN_GITHUB_ACTIONS = os.getenv("GITHUB_ACTIONS") == "true"
+
 """
 Unit tests for the anisotropic MAIRE module.
 """
@@ -119,7 +122,7 @@ def test_Common_spec_max_asymp_dir():
 
 
 @pytest.mark.skipif(
-    os.getenv("RUN_OPTIONAL_TESTS") == "False",
+    IN_GITHUB_ACTIONS,
     reason="Skipping optional test. Set the environment variable RUN_OPTIONAL_TESTS to run this test."
 )
 def test_run_from_spectra_two_locations():
@@ -179,7 +182,7 @@ def test_run_from_spectra_two_locations():
 #     assert result is not None
 
 @pytest.mark.skipif(
-    os.getenv("RUN_OPTIONAL_TESTS") == "False",
+    IN_GITHUB_ACTIONS,
     reason="Skipping optional test. Set the environment variable RUN_OPTIONAL_TESTS to run this test."
 )
 def test_Common_spec_max_asymp_dir():
@@ -195,7 +198,7 @@ def test_Common_spec_max_asymp_dir():
     assert outputted_dose is not None
 
 @pytest.mark.skipif(
-    os.getenv("RUN_OPTIONAL_TESTS") == "False",
+    IN_GITHUB_ACTIONS,
     reason="Skipping optional test. Set the environment variable RUN_OPTIONAL_TESTS to run this test."
 )
 def test_DLR_spec():
@@ -263,7 +266,7 @@ def test_isotropic_dose_rates():
 #         date_and_time=dt.datetime(2006, 12, 13, 3, 0))
 
 @pytest.mark.skipif(
-    os.getenv("RUN_OPTIONAL_TESTS") == "False",
+    IN_GITHUB_ACTIONS,
     reason="Skipping optional test. Set the environment variable RUN_OPTIONAL_TESTS to run this test."
 )
 def test_isotropic_dose_rates():
@@ -295,7 +298,7 @@ def test_isotropic_dose_rates():
     assert rounded_actual_values == expected_isotropic_dose_rates
 
 @pytest.mark.skipif(
-    os.getenv("RUN_OPTIONAL_TESTS") == "False",
+    IN_GITHUB_ACTIONS,
     reason="Skipping optional test. Set the environment variable RUN_OPTIONAL_TESTS to run this test."
 )
 def test_anisotropic_dose_rates():
