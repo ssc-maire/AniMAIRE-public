@@ -27,7 +27,7 @@ setup(
     package_data={"AniMAIRE":[
                                 "anisotropic_MAIRE_engine/data/*.csv"
                                          ]},
-    version='1.2.0',
+    version='1.2.1',
     description='Python library for running the anisotropic version of MAIRE+',
     long_description=long_description,
     long_description_content_type='text/markdown',
