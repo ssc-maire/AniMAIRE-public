@@ -461,7 +461,7 @@ def determine_all_relevant_dose_rates(date_and_time_to_run_for,
     
     nm_data, OULU_pre_increase, Kp_index_at_time, array_of_all_lats_and_longs, array_of_alts = collect_relevant_input_data(date_and_time_to_run_for)
 
-    if station_to_run_for is not "all":
+    if station_to_run_for != "all":
         nm_data = nm_data[nm_data["STATION"] == station_to_run_for]
 
     #Kp_index_at_time = 1
@@ -624,7 +624,7 @@ def determine_all_relevant_dose_rates_GCR_only(date_and_time_to_run_for,
     
     nm_data, OULU_pre_increase, Kp_index_at_time, array_of_all_lats_and_longs, array_of_alts = collect_relevant_input_data(date_and_time_to_run_for)
 
-    if station_to_run_for is not "all":
+    if station_to_run_for != "all":
         nm_data = nm_data[nm_data["STATION"] == station_to_run_for]
 
     #Kp_index_at_time = 1
@@ -674,7 +674,7 @@ def determine_all_relevant_dose_rates_GLE_only(date_and_time_to_run_for,
     
     nm_data, OULU_pre_increase, Kp_index_at_time, array_of_all_lats_and_longs, array_of_alts = collect_relevant_input_data(date_and_time_to_run_for)
 
-    if station_to_run_for is not "all":
+    if station_to_run_for != "all":
         nm_data = nm_data[nm_data["STATION"] == station_to_run_for]
 
     #Kp_index_at_time = 1
@@ -762,7 +762,7 @@ def determine_all_flat_relevant_dose_rates(date_and_time_to_run_for,
     
     nm_data, OULU_pre_increase, Kp_index_at_time, array_of_all_lats_and_longs, array_of_alts = collect_relevant_input_data(date_and_time_to_run_for)
 
-    if station_to_run_for is not "all":
+    if station_to_run_for != "all":
         nm_data = nm_data[nm_data["STATION"] == station_to_run_for]
 
     #Kp_index_at_time = 1
