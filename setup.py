@@ -1,3 +1,7 @@
+"""
+Setup script for the AniMAIRE package.
+"""
+
 from setuptools import find_packages, setup
 import os
 import glob as gb
@@ -23,7 +27,7 @@ setup(
     package_data={"AniMAIRE":[
                                 "anisotropic_MAIRE_engine/data/*.csv"
                                          ]},
-    version='1.1.11',
+    version='1.2.0',
     description='Python library for running the anisotropic version of MAIRE+',
     long_description=long_description,
     long_description_content_type='text/markdown',

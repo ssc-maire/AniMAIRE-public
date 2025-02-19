@@ -1,8 +1,10 @@
-
-
 from .anisotropic_MAIRE_engine.spectralCalculations.particleDistribution import particleDistribution
 from .anisotropic_MAIRE_engine.spectralCalculations.pitchAngleDistribution import isotropicPitchAngleDistribution, pitchAngleDistribution
-
+import numpy as np
+import datetime as dt
+import spaceweather as sw
+import pandas as pd
+from typing import List, Optional
 
 def get_correctly_formatted_particle_dist_list(proton_rigidity_spectrum, 
                                                alpha_rigidity_spectrum, 
@@ -29,4 +31,19 @@ def get_correctly_formatted_particle_dist_list(proton_rigidity_spectrum,
             
             list_of_particle_distributions.append(particle_distribution)
     return list_of_particle_distributions
+
+def get_kp_index(date_and_time: dt.datetime) -> int:
+    return sw.ap_kp_3h()[pd.to_datetime(sw.ap_kp_3h().index) < date_and_time].iloc[-1]["Kp"]
+
+default_altitudes_in_kft = [0,10,20] + [i for i in range(25, 61 + 1, 3)]
+
+def validate_altitudes(altitudes_in_km: Optional[List[float]], altitudes_in_kft: List[float]) -> List[float]:
+    if (altitudes_in_km is not None) and (altitudes_in_kft is not None):
+        raise Exception("Error: only one of altitudes_in_km and altitudes_in_kft should be supplied!")
+    elif (altitudes_in_km is None) and (altitudes_in_kft is None):
+        return np.array(default_altitudes_in_kft) * 0.3048
+    elif altitudes_in_km is not None:
+        return altitudes_in_km
+    elif altitudes_in_kft is not None:
+        return np.array(altitudes_in_kft) * 0.3048 if altitudes_in_km is None else altitudes_in_km
 
