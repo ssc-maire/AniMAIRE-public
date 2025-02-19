@@ -27,7 +27,7 @@ setup(
     package_data={"AniMAIRE":[
                                 "anisotropic_MAIRE_engine/data/*.csv"
                                          ]},
-    version='1.2.1',
+    version='1.2.2',
     description='Python library for running the anisotropic version of MAIRE+',
     long_description=long_description,
     long_description_content_type='text/markdown',
@@ -55,7 +55,8 @@ setup(
                         'spaceweather >= 0.2.4',
                         'atmosphericRadiationDoseAndFlux >= 1.0.3',
                         'kpindex >= 2.0.0',
-                        'ipywidgets >= 8.1.5'],
+                        'ipywidgets >= 8.1.5',
+                        'dask>=2025.1.0'],
     #install_requires,
     setup_requires=['pytest-runner','wheel'],
     tests_require=['pytest'],
