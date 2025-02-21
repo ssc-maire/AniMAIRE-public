@@ -9,6 +9,8 @@ from .anisotropic_MAIRE_engine.spectralCalculations.rigiditySpectrum import DLRm
 from .anisotropic_MAIRE_engine.spectralCalculations.pitchAngleDistribution import gaussianBeeckPitchAngleDistribution, isotropicPitchAngleDistribution, gaussianPitchAngleDistribution
 from .anisotropic_MAIRE_engine.generalEngineInstance import generalEngineInstance, default_array_of_lats_and_longs
 
+import logging
+
 def run_from_spectra(
         proton_rigidity_spectrum: Optional[Callable[[float], float]] = None,
         alpha_rigidity_spectrum: Optional[Callable[[float], float]] = None,
@@ -83,6 +85,10 @@ def run_from_spectra(
 
     if date_and_time is None:
         date_and_time = dt.datetime.utcnow()
+
+    if date_and_time.tzinfo is None:
+        logging.warning("The inputted date and time does not have timezone info. Assuming UTC.")
+        date_and_time = date_and_time.replace(tzinfo=dt.timezone.utc)
 
     if Kp_index is None:
         Kp_index = get_kp_index(date_and_time)
