@@ -33,7 +33,10 @@ def get_correctly_formatted_particle_dist_list(proton_rigidity_spectrum,
     return list_of_particle_distributions
 
 def get_kp_index(date_and_time: dt.datetime) -> int:
-    return sw.ap_kp_3h()[pd.to_datetime(sw.ap_kp_3h().index) < date_and_time].iloc[-1]["Kp"]
+    kp_data = sw.ap_kp_3h()
+    kp_data.index = kp_data.index.tz_localize('UTC')  # Localize the index to UTC
+
+    return round(kp_data[pd.to_datetime(kp_data.index) < date_and_time].iloc[-1]["Kp"])
 
 default_altitudes_in_kft = [0,10,20] + [i for i in range(25, 61 + 1, 3)]
 
