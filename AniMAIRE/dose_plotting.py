@@ -192,6 +192,86 @@ def plot_dose_map(map_to_plot,
 
     return axis_no_colorbar, colorbar
 
+def plot_on_spherical_globe(heatmap_DF_to_Plot, 
+                            dose_type="edose", 
+                           plot_title=None, 
+                           palette="Spectral_r", 
+                           hue_range=None,
+                           legend_label=r"Effective dose ($\mu Sv / hr$)",
+                           central_latitude=0,
+                           central_longitude=0):
+    """
+    Plot data on a 3D spherical globe using Cartopy.
+    
+    Parameters:
+    -----------
+    heatmap_DF_to_Plot : pandas.DataFrame
+        DataFrame containing latitude, longitude, and dose values
+    dose_type : str, default="edose"
+        Column name in the DataFrame to use for coloring points
+    plot_title : str, optional
+        Plot title
+    palette : str, default="Spectral_r"
+        Matplotlib colormap name
+    hue_range : tuple, optional
+        Range of values for the colormap (min, max)
+    legend_label : str, default=r"Effective dose ($\mu Sv / hr$)"
+        Label for the colorbar
+    central_latitude : float, default=0
+        Latitude for the center of the orthographic projection
+    central_longitude : float, default=0
+        Longitude for the center of the orthographic projection
+    
+    Returns:
+    --------
+    fig : matplotlib.figure.Figure
+        The figure object
+    """
+    
+    # Create figure with orthographic projection (3D globe view)
+    # fig = plt.figure(figsize=(10, 10))
+    # ax = fig.add_subplot(1, 1, 1, projection=ccrs.Orthographic(0, 30))
+    ax = plt.gcf().add_subplot(1, 1, 1, projection=ccrs.Orthographic(central_longitude, central_latitude))
+    
+    # Add coastlines and features
+    ax.coastlines(linewidth=0.5)
+    ax.gridlines(linewidth=0.5, color='gray', alpha=0.5, linestyle='--')
+    
+    # Create a heatmap using pcolormesh
+    # First, we need to reshape the data into a grid
+    
+    # Create a regular grid for the heatmap
+    # lon_grid = np.linspace(data_df["longitude"].min(), data_df["longitude"].max(), 100)
+    # lat_grid = np.linspace(data_df["latitude"].min(), data_df["latitude"].max(), 100)
+    lon_mesh, lat_mesh = np.meshgrid(heatmap_DF_to_Plot["longitude"].unique(), heatmap_DF_to_Plot["latitude"].unique())
+    
+    # Interpolate the data onto the grid
+    values = heatmap_DF_to_Plot[dose_type].values
+    grid_values = griddata((heatmap_DF_to_Plot["longitude"], heatmap_DF_to_Plot["latitude"]), values, 
+                           (lon_mesh, lat_mesh), method='linear', fill_value=np.nan)
+    
+    # Plot the heatmap
+    scatter = ax.pcolormesh(lon_mesh, lat_mesh, grid_values, 
+                           transform=ccrs.PlateCarree(),
+                           cmap=palette, 
+                           alpha=0.8,
+                           shading='auto')
+
+    norm = plt.Normalize(hue_range[0], hue_range[1])
+    sm = plt.cm.ScalarMappable(cmap=palette, norm=norm)
+    sm.set_array([])
+
+    # Remove the legend and add a colorbar
+    #scatterPlotAxis.get_legend().remove()
+    #colorbar = scatterPlotAxis.figure.colorbar(sm,label=legend_label,shrink=0.4)
+    colorbar = scatter.figure.colorbar(sm,label=legend_label,orientation="horizontal",ax=plt.gca())
+    
+    # Set title
+    if plot_title:
+        plt.title(plot_title)
+    
+    return plt.gcf()
+
 def add_colorbar_to_plot(hue_range, palette, legend_label, scatterPlotAxis=None):
     norm = plt.Normalize(hue_range[0], hue_range[1])
     sm = plt.cm.ScalarMappable(cmap=palette, norm=norm)
