@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "AniMAIRE"
-version = "1.5.8"
+version = "1.5.9"
 description = "Python library for running the anisotropic version of MAIRE+"
 readme = "README.md"
 license = { text = "CC By-NC-SA 4.0" }
