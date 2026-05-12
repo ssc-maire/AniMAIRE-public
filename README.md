@@ -104,6 +104,7 @@ Note that there are quite a few sizeable data files within some of the dependenc
 
 ```python
 from AniMAIRE import AniMAIRE
+import datetime as dt
 
 # Default: OTSO is used for asymptotic direction calculations
 result = AniMAIRE.run_from_spectra(
