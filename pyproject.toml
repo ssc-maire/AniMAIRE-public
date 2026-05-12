@@ -99,3 +99,6 @@ Homepage = "https://github.com/ssc-maire/AniMAIRE-public"
 packages = ["AniMAIRE"]
 
 [tool.hatch.build.targets.sdist]
+exclude = [
+    "notebooks_and_data_and_figures_for_paper",
+]

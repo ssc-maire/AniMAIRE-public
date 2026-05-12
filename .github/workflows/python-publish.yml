@@ -47,7 +47,7 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install build twine
     - name: Build package
-      run: python -m build
+      run: python -m build --wheel
     - name: Check package metadata
       run: python -m twine check dist/*
     - name: Verify wheel contains Python source
