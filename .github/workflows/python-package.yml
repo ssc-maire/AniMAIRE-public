@@ -59,7 +59,7 @@ jobs:
       run: |
         python -m build
         python -m pip install --force-reinstall --no-deps dist/*.whl
-        python -c "import AniMAIRE; print('AniMAIRE import OK')"
+        python -c "from AniMAIRE import AniMAIRE; print('AniMAIRE import OK')"
     - name: Test with pytest
       run: |
         pytest --cov=AniMAIRE --cov-report=xml --cov-report=term-missing

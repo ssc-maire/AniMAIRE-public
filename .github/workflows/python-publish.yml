@@ -50,6 +50,31 @@ jobs:
       run: python -m build
     - name: Check package metadata
       run: python -m twine check dist/*
+    - name: Verify wheel contains Python source
+      run: |
+        python << 'PYEOF'
+        import zipfile, glob, sys
+
+        wheels = glob.glob('dist/*.whl')
+        if not wheels:
+            print('ERROR: No wheel found in dist/')
+            sys.exit(1)
+
+        whl = wheels[0]
+        print(f'Inspecting: {whl}')
+        with zipfile.ZipFile(whl) as z:
+            names = z.namelist()
+
+        required = ['AniMAIRE/__init__.py', 'AniMAIRE/AniMAIRE.py']
+        missing = [f for f in required if f not in names]
+        if missing:
+            print('ERROR: Wheel is missing required Python source files:', missing)
+            print('Wheel only contains:', sorted(set(n.split('/')[0] for n in names)))
+            sys.exit(1)
+
+        py_count = sum(1 for n in names if n.endswith('.py') and n.startswith('AniMAIRE/'))
+        print(f'OK: wheel contains {py_count} Python source files (verified {required})')
+        PYEOF
     - name: Publish package
       uses: pypa/gh-action-pypi-publish@cef221092ed1bacb1cc03d23a2d87d1d172e277b
       with:

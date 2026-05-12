@@ -97,13 +97,5 @@ Homepage = "https://github.com/ssc-maire/AniMAIRE-public"
 
 [tool.hatch.build.targets.wheel]
 packages = ["AniMAIRE"]
-include = [
-    "AniMAIRE/anisotropic_MAIRE_engine/data/*.csv",
-    "AniMAIRE/anisotropic_MAIRE_engine/rigidityPredictor/data/*.pkl",
-]
 
 [tool.hatch.build.targets.sdist]
-include = [
-    "AniMAIRE/anisotropic_MAIRE_engine/data/*.csv",
-    "AniMAIRE/anisotropic_MAIRE_engine/rigidityPredictor/data/*.pkl",
-]
