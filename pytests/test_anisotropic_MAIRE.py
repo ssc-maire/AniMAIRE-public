@@ -147,7 +147,8 @@ def test_Common_spec_max_asymp_dir():
         date_and_time=dt.datetime(2006, 12, 13, 3, 0),
         altitudes_in_km=np.append(np.array(range(0, 13)) * 0.3048, 11.28),
         array_of_lats_and_longs=np.array([[65.0, 25.0], [-35.0, 78.0]]),
-        array_of_zeniths_and_azimuths=np.array([(i, j) for i in np.linspace(0, 20, 5) for j in np.linspace(0, 360, 5)])
+        array_of_zeniths_and_azimuths=np.array([(i, j) for i in np.linspace(0, 20, 5) for j in np.linspace(0, 360, 5)]),
+        cache_asymptotic_directions=False,
     ).values.tolist()
     
     assert_allclose_pandas(result, expected_output)
@@ -525,7 +526,9 @@ def test_isotropic_dose_rates():
         proton_rigidity_spectrum=lambda x:2.56*(x**-3.41),
         Kp_index=3,
         date_and_time=dt.datetime(2006, 12, 13, 3, 0),
-        array_of_lats_and_longs=[[65.0,25.0]])
+        array_of_lats_and_longs=[[65.0,25.0]],
+        cache_asymptotic_directions=False,
+    )
 
     rounded_actual_values = [[custom_round(value) for value in sublist] for sublist in test_isotropic_dose_rates.values.tolist()]
     assert rounded_actual_values == expected_isotropic_dose_rates
