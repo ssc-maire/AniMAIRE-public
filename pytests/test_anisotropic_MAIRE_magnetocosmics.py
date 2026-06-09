@@ -70,7 +70,9 @@ def test_run_from_spectra_two_locations():
                      date_and_time=dt.datetime(year=2000,month=7,day=14,hour=10,minute=45,second=0),
                      use_OTSOpy=False,
                      altitudes_in_km=np.append(np.array(range(0,13)) * 0.3048,11.28),
-                     array_of_lats_and_longs=[[46.2,187.4],[-28.3,-92.7]])
+                     array_of_lats_and_longs=[[46.2,187.4],[-28.3,-92.7]],
+                     cache_asymptotic_directions=False,
+                     )
     
 # def test_run_from_spectra_proton_only():
 
@@ -188,6 +190,7 @@ def test_run_from_spectra_two_locations():
                         altitudes_in_km=np.append(np.array(range(0,13)) * 0.3048,11.28),
                         array_of_lats_and_longs=[[46.2,187.4],[-28.3,-92.7]],
                         #record_full_output=True,
+                        cache_asymptotic_directions=False,
                         )
     
     assert_allclose_pandas(result.values.tolist(), expected_output_doses)
@@ -325,7 +328,9 @@ def test_isotropic_dose_rates():
         Kp_index=3,
         date_and_time=dt.datetime(2006, 12, 13, 3, 0),
         use_OTSOpy=False,
-        array_of_lats_and_longs=[[65.0,25.0]])
+        array_of_lats_and_longs=[[65.0,25.0]],
+        cache_asymptotic_directions=False,
+    )
     print(test_isotropic_dose_rates)
 
 # def test_anisotropic_dose_rates():
