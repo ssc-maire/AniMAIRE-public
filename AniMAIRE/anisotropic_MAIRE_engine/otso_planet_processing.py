@@ -13,6 +13,64 @@ import psutil
 OTSOcachedir = 'cachedOTSOData'
 OTSOmemory = Memory(OTSOcachedir, verbose=0)
 
+POLE_LATITUDES = (-90.0, 90.0)
+
+
+def _requested_pole_longitudes(array_of_lats_and_longs) -> dict[float, set[float]]:
+    """Return requested longitudes for each exact pole latitude."""
+    requested: dict[float, set[float]] = {}
+    for lat, lon in np.asarray(array_of_lats_and_longs, dtype=float):
+        if lat in POLE_LATITUDES:
+            requested.setdefault(lat, set()).add(float(lon))
+    return requested
+
+
+def expand_polar_coordinates(
+    asymp_df: pd.DataFrame,
+    array_of_lats_and_longs,
+) -> pd.DataFrame:
+    """
+    Copy single-pole OTSO results onto every requested pole longitude.
+
+    OTSO deduplicates exact pole coordinates before calculation, so only one
+    longitude per pole is returned. This fills in the missing pole longitudes
+    that were present in the input coordinate list.
+    """
+    if asymp_df.empty:
+        return asymp_df
+
+    requested_pole_longitudes = _requested_pole_longitudes(array_of_lats_and_longs)
+    if not requested_pole_longitudes:
+        return asymp_df
+
+    expanded_rows = []
+    for pole_lat, requested_longitudes in requested_pole_longitudes.items():
+        pole_rows = asymp_df[asymp_df["initialLatitude"] == pole_lat]
+        if pole_rows.empty:
+            continue
+
+        existing_longitudes = set(pole_rows["initialLongitude"].unique())
+        missing_longitudes = requested_longitudes - existing_longitudes
+        if not missing_longitudes:
+            continue
+
+        template_longitude = next(iter(existing_longitudes))
+        template_rows = pole_rows[pole_rows["initialLongitude"] == template_longitude]
+        for longitude in missing_longitudes:
+            copied_rows = template_rows.copy()
+            copied_rows["initialLongitude"] = longitude
+            expanded_rows.append(copied_rows)
+
+    if not expanded_rows:
+        return asymp_df
+
+    return (
+        pd.concat([asymp_df, *expanded_rows], ignore_index=True)
+        .sort_values(by=["initialLatitude", "initialLongitude"])
+        .reset_index(drop=True)
+    )
+
+
 def convert_planet_df_to_asymp_format(planet_df):
     """
     Convert the OTSO planet dataframe to the same format as the asymptotic directions dataframe.
@@ -187,7 +245,8 @@ def create_and_convert_planet(array_of_lats_and_longs:list[list[float,float]],
     
     # Combine all results into a single DataFrame
     if all_results:
-        return pd.concat(all_results, ignore_index=True)
+        combined_results = pd.concat(all_results, ignore_index=True)
+        return expand_polar_coordinates(combined_results, array_of_lats_and_longs)
     else:
         return pd.DataFrame()  # Return empty DataFrame if no results
 

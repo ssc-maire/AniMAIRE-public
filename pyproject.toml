@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "AniMAIRE"
-version = "1.5.9"
+version = "1.5.10"
 description = "Python library for running the anisotropic version of MAIRE+"
 readme = "README.md"
 license = { text = "CC By-NC-SA 4.0" }
@@ -73,7 +73,7 @@ dependencies = [
     "netCDF4>=1.7.2,<2",
     "imageio>=2.37.0",
     "psutil>=7.0.0,<8",
-    "OTSO>=1.2.5,<=1.2.5",
+    "OTSO>=1.2.18,<=1.2.18",
     "geopy>=2.0.0",
     "pynverse>=0.1.4.6",
     "xgboost>=1.6.0,<4"
