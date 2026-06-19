@@ -35,11 +35,11 @@ jobs:
       )
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
         if: github.event_name == 'workflow_run'
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
