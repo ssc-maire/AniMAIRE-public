@@ -61,7 +61,7 @@ dependencies = [
     "geopandas>=0.11.1,<2",
     "joblib>=1.2.0",
     "spaceweather>=0.2.4",
-    "atmosphericRadiationDoseAndFlux>=1.0.16,<=1.0.16",
+    "atmosphericRadiationDoseAndFlux>=1.0.17,<=1.0.17",
     "kpindex>=2.0.0",
     "ipywidgets>=8.1.5",
     "dask>=2022.0.0",
