@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "AniMAIRE"
-version = "1.5.10"
+version = "1.5.11"
 description = "Python library for running the anisotropic version of MAIRE+"
 readme = "README.md"
 license = { text = "CC By-NC-SA 4.0" }
@@ -48,20 +48,20 @@ dependencies = [
     "numpy>=1.21.6,<3",
     "pandarallel>=1.6.3",
     "pandas>=1.3.5,<4",
-    "ParticleRigidityCalculationTools>=1.5.4,<=1.5.18",
+    "ParticleRigidityCalculationTools>=1.5.21,<=1.5.21",
     "scipy>=1.7.3,<2",
     "spacepy>=0.3.0",
     "tqdm>=4.65.0",
     "plotly>=5.9.0",
     "numba>=0.57.1,<1",
     "metpy>=1.5.1",
-    "CosRayModifiedISO>=1.2.9,<=1.2.11",
+    "CosRayModifiedISO>=1.2.12,<=1.2.12",
     "AsympDirsCalculator>=1.0.8,<=1.1.0",
     "seaborn>=0.13.2",
     "geopandas>=0.11.1,<2",
     "joblib>=1.2.0",
     "spaceweather>=0.2.4",
-    "atmosphericRadiationDoseAndFlux>=1.0.3,<=1.0.15",
+    "atmosphericRadiationDoseAndFlux>=1.0.17,<=1.0.17",
     "kpindex>=2.0.0",
     "ipywidgets>=8.1.5",
     "dask>=2022.0.0",
